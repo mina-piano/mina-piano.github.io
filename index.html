@@ -1,11 +1,152 @@
 <!DOCTYPE html>
-   <html lang="ja">
-   <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1">
-     <title>みなさんのホームページ</title>
-   </head>
-   <body>
-     <h1>ただいま準備中です</h1>
-   </body>
-   </html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mina piano オフィシャルホームページ</title>
+<meta name="description" content="17LIVEライバー mina piano のホームページ。イベント情報、写真、オリジナルソング、リンク集。">
+<meta property="og:title" content="mina piano オフィシャルホームページ">
+<meta property="og:description" content="イベント情報・写真・オリジナルソング・リンク集">
+<meta property="og:type" content="website">
+<style>
+:root{--bg:#fff7fa;--card:#ffffff;--ink:#3a2a33;--sub:#8a6f7b;--accent:#e0709f;--accent2:#b84d7b;--line:#f3d9e4}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;line-height:1.7;font-size:17px}
+a{color:var(--accent2)}
+header.hero{background:linear-gradient(160deg,#f7b6d0,#e0709f 60%,#b84d7b);color:#fff;text-align:center;padding:48px 20px 40px}
+header.hero h1{margin:0;font-size:2.4rem;letter-spacing:.04em}
+header.hero p{margin:10px 0 0;font-size:1.05rem;opacity:.95}
+.note{font-size:.9rem;opacity:.9}
+nav{position:sticky;top:0;z-index:5;background:rgba(255,247,250,.95);border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px;padding:8px 10px}
+nav a{text-decoration:none;color:var(--accent2);font-weight:700;padding:6px 8px;font-size:.95rem}
+main{max-width:860px;margin:0 auto;padding:8px 16px 40px}
+section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin:20px 0;box-shadow:0 2px 8px rgba(224,112,159,.08)}
+section h2{margin:0 0 12px;font-size:1.3rem;color:var(--accent2);border-left:6px solid var(--accent);padding-left:10px}
+.empty{color:var(--sub)}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:999px}
+.btn:hover{background:var(--accent2)}
+.btn.shop{background:#fff;color:var(--accent2);border:2px solid var(--accent)}
+.subh{margin:14px 0 8px;font-size:1rem;color:var(--sub);font-weight:700}
+.ev{border-top:1px dashed var(--line);padding:12px 0}
+.ev:first-of-type{border-top:none}
+.ev .d{font-weight:700;color:var(--accent2)}
+.ev .t{font-size:1.1rem;font-weight:700}
+.ev .m{color:var(--sub);font-size:.95rem}
+.ev.past{opacity:.6}
+details summary{cursor:pointer;color:var(--sub);margin-top:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.grid figure{margin:0}
+.grid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px;cursor:pointer;display:block;background:#f3e3ea}
+.grid figcaption{font-size:.85rem;color:var(--sub);margin-top:4px}
+.song{border-top:1px dashed var(--line);padding:12px 0}
+.song:first-of-type{border-top:none}
+.song .t{font-weight:700;font-size:1.1rem}
+.song .m{color:var(--sub);font-size:.95rem;margin-bottom:6px}
+audio{width:100%}
+#lb{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:20;padding:16px}
+#lb img{max-width:100%;max-height:100%;border-radius:8px}
+footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40px}
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>mina piano</h1>
+  <p>17LIVEライバー ／ ピアノ</p>
+</header>
+<nav>
+  <a href="#links">リンク</a>
+  <a href="#events">イベント</a>
+  <a href="#songs">オリジナルソング</a>
+  <a href="#photos">写真</a>
+  <a href="#shop">グッズ・楽曲販売</a>
+</nav>
+<main>
+  <section id="links"><h2>リンク</h2><div id="links-body" class="btns"><span class="empty">準備中です</span></div></section>
+  <section id="events"><h2>イベント情報</h2><div id="events-body"><p class="empty">準備中です</p></div></section>
+  <section id="songs"><h2>オリジナルソング</h2><div id="songs-body"><p class="empty">準備中です</p></div></section>
+  <section id="photos"><h2>写真</h2><div id="photos-body"><p class="empty">準備中です</p></div></section>
+  <section id="shop"><h2>グッズ・楽曲販売</h2><div id="shop-body" class="btns"><span class="empty">準備中です</span></div></section>
+</main>
+<div id="lb"><img alt=""></div>
+<footer>© mina piano<br>このホームページには、個人の情報は掲載していません。</footer>
+<script>
+(function(){
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function okUrl(u){return /^https?:\/\//i.test(u);}
+  function okPath(p){return /^[A-Za-z0-9_\-\/\.]+$/.test(p) && p.indexOf('..')<0;}
+  function load(name){
+    return fetch(name+'?t='+Date.now()).then(function(r){return r.ok?r.text():'';}).catch(function(){return '';});
+  }
+  function lines(t){
+    return t.split(/\r?\n/).map(function(s){return s.trim();}).filter(function(s){return s && s.charAt(0)!=='#' || /^#\s*(SNS|ショップ)/.test(s);});
+  }
+  function rows(t){
+    return t.split(/\r?\n/).map(function(s){return s.trim();}).filter(function(s){return s && s.charAt(0)!=='#';}).map(function(s){return s.split('|').map(function(x){return x.trim();});});
+  }
+  // リンク・ショップ
+  load('links.txt').then(function(t){
+    var sec='SNS',sns=[],shop=[];
+    t.split(/\r?\n/).forEach(function(s){
+      s=s.trim(); if(!s) return;
+      var m=/^#\s*(SNS|ショップ)/.exec(s);
+      if(m){sec=m[1];return;}
+      if(s.charAt(0)==='#') return;
+      var p=s.split('|'); if(p.length<2) return;
+      var name=p[0].trim(),url=p.slice(1).join('|').trim();
+      if(!name||!okUrl(url)) return;
+      (sec==='SNS'?sns:shop).push({n:name,u:url});
+    });
+    function btn(x,c){return '<a class="btn '+c+'" href="'+esc(x.u)+'" target="_blank" rel="noopener">'+esc(x.n)+'</a>';}
+    if(sns.length) document.getElementById('links-body').innerHTML=sns.map(function(x){return btn(x,'');}).join('');
+    if(shop.length) document.getElementById('shop-body').innerHTML=shop.map(function(x){return btn(x,'shop');}).join('');
+  });
+  // イベント: 日付|時間|タイトル|メモ|リンク
+  load('events.txt').then(function(t){
+    var ev=rows(t).filter(function(r){return r[0]&&r[2];});
+    if(!ev.length) return;
+    ev.sort(function(a,b){return a[0]<b[0]?-1:a[0]>b[0]?1:0;});
+    var today=new Date(),y=today.getFullYear(),mo=('0'+(today.getMonth()+1)).slice(-2),d=('0'+today.getDate()).slice(-2);
+    var key=y+'-'+mo+'-'+d;
+    function one(r,past){
+      var h='<div class="ev'+(past?' past':'')+'"><div class="d">'+esc(r[0])+(r[1]?'　'+esc(r[1]):'')+'</div><div class="t">'+esc(r[2])+'</div>';
+      if(r[3]) h+='<div class="m">'+esc(r[3])+'</div>';
+      if(r[4]&&okUrl(r[4])) h+='<div class="m"><a href="'+esc(r[4])+'" target="_blank" rel="noopener">くわしくはこちら</a></div>';
+      return h+'</div>';
+    }
+    var up=ev.filter(function(r){return r[0]>=key;}),pa=ev.filter(function(r){return r[0]<key;}).reverse();
+    var html=up.length?up.map(function(r){return one(r,false);}).join(''):'<p class="empty">いまのところ、予定されているイベントはありません。</p>';
+    if(pa.length) html+='<details><summary>過去のイベント('+pa.length+'件)</summary>'+pa.map(function(r){return one(r,true);}).join('')+'</details>';
+    document.getElementById('events-body').innerHTML=html;
+  });
+  // 曲: 曲名|ファイル|説明|リンク
+  load('songs.txt').then(function(t){
+    var s=rows(t).filter(function(r){return r[0]&&r[1]&&okPath(r[1]);});
+    if(!s.length) return;
+    document.getElementById('songs-body').innerHTML=s.map(function(r){
+      var h='<div class="song"><div class="t">'+esc(r[0])+'</div>';
+      if(r[2]) h+='<div class="m">'+esc(r[2])+'</div>';
+      h+='<audio controls preload="none" src="'+esc(r[1])+'"></audio>';
+      if(r[3]&&okUrl(r[3])) h+='<div class="m"><a href="'+esc(r[3])+'" target="_blank" rel="noopener">配信・購入はこちら</a></div>';
+      return h+'</div>';
+    }).join('');
+  });
+  // 写真: ファイル|キャプション
+  var lb=document.getElementById('lb'),lbi=lb.querySelector('img');
+  lb.addEventListener('click',function(){lb.style.display='none';});
+  load('photos.txt').then(function(t){
+    var p=rows(t).filter(function(r){return r[0]&&okPath(r[0]);});
+    if(!p.length) return;
+    var box=document.getElementById('photos-body');
+    box.innerHTML='<div class="grid">'+p.map(function(r){
+      return '<figure><img loading="lazy" src="'+esc(r[0])+'" alt="'+esc(r[1]||'写真')+'" data-src="'+esc(r[0])+'">'+(r[1]?'<figcaption>'+esc(r[1])+'</figcaption>':'')+'</figure>';
+    }).join('')+'</div>';
+    box.querySelectorAll('img').forEach(function(im){
+      im.addEventListener('click',function(){lbi.src=im.getAttribute('data-src');lb.style.display='flex';});
+    });
+  });
+})();
+</script>
+</body>
+</html>
