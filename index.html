@@ -23,8 +23,9 @@ header.hero h1{margin:0;font-size:2.4rem;letter-spacing:.04em;text-shadow:0 2px 
 header.hero p{margin:6px 0 0;font-size:1.05rem;text-shadow:0 1px 8px rgba(0,0,0,.6)}
 @media(min-width:760px){header.hero{aspect-ratio:16/7;background-position:center 30%}header.hero h1{font-size:3rem}}
 .note{font-size:.9rem;opacity:.9}
-nav{position:sticky;top:0;z-index:5;background:rgba(255,247,250,.95);border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px;padding:8px 10px}
-nav a{text-decoration:none;color:var(--accent2);font-weight:700;padding:6px 8px;font-size:.95rem}
+nav{position:sticky;top:0;z-index:5;background:rgba(255,247,250,.95);border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:center;gap:8px 10px;padding:10px}
+nav a{text-decoration:none;color:#fff;background:var(--accent);font-weight:700;padding:7px 16px;font-size:.9rem;border-radius:999px}
+nav a:hover{background:var(--accent2)}
 main{max-width:860px;margin:0 auto;padding:8px 16px 40px}
 section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin:20px 0;box-shadow:0 2px 8px rgba(224,112,159,.08)}
 section h2{margin:0 0 12px;font-size:1.3rem;color:var(--accent2);border-left:6px solid var(--accent);padding-left:10px}
@@ -48,7 +49,11 @@ details summary{cursor:pointer;color:var(--sub);margin-top:10px}
 .grid figcaption{font-size:.85rem;color:var(--sub);margin-top:4px}
 .song{border-top:1px dashed var(--line);padding:12px 0}
 .song:first-of-type{border-top:none}
-.song .t{font-weight:700;font-size:1.1rem}
+.song summary{font-weight:700;font-size:1.1rem;cursor:pointer;list-style:none}
+.song summary::-webkit-details-marker{display:none}
+.song summary::before{content:'▸ ';color:var(--accent2);font-size:.9em}
+.song[open] summary::before{content:'▾ '}
+.song .body{margin-top:10px}
 .song .m{color:var(--sub);font-size:.95rem;margin-bottom:6px}
 audio{width:100%}
 a.dl{display:inline-block;margin-top:6px;padding:6px 14px;border:2px solid var(--accent);border-radius:999px;text-decoration:none;font-weight:700;font-size:.9rem}
@@ -153,12 +158,12 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
     if(!s.length){box.innerHTML='<p class="empty">'+t('soon')+'</p>';return;}
     box.innerHTML=s.map(function(r){
       var title=pick(r[0],r[4]),desc=pick(r[2],r[5]);
-      var h='<div class="song"><div class="t">'+esc(title)+'</div>';
+      var h='<details class="song"><summary>'+esc(title)+'</summary><div class="body">';
       if(desc)h+='<div class="m">'+esc(desc)+'</div>';
       h+='<audio controls preload="none" src="'+esc(r[1])+'"></audio>';
       h+='<div class="m"><a class="dl" href="'+esc(r[1])+'" download="'+esc(title.replace(/[\\\/:*?"<>|]/g,' '))+'.mp3">'+t('dl')+'</a></div>';
       if(r[3]&&okUrl(r[3]))h+='<div class="m"><a href="'+esc(r[3])+'" target="_blank" rel="noopener">'+t('buy')+'</a></div>';
-      return h+'</div>';
+      return h+'</div></details>';
     }).join('');
     attachDl(box);
   }
