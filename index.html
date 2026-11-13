@@ -8,15 +8,20 @@
 <meta property="og:title" content="mina piano オフィシャルホームページ">
 <meta property="og:description" content="イベント情報・写真・オリジナルソング・リンク集">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://mina-piano.github.io/header.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 :root{--bg:#fff7fa;--card:#ffffff;--ink:#3a2a33;--sub:#8a6f7b;--accent:#e0709f;--accent2:#b84d7b;--line:#f3d9e4}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;line-height:1.7;font-size:17px}
 a{color:var(--accent2)}
-header.hero{background:linear-gradient(160deg,#f7b6d0,#e0709f 60%,#b84d7b);color:#fff;text-align:center;padding:48px 20px 40px}
-header.hero h1{margin:0;font-size:2.4rem;letter-spacing:.04em}
-header.hero p{margin:10px 0 0;font-size:1.05rem;opacity:.95}
+header.hero{position:relative;color:#fff;text-align:center;background:url(header.jpg) 38% center/cover no-repeat,linear-gradient(160deg,#f7b6d0,#e0709f 60%,#b84d7b);aspect-ratio:4/3;max-height:78vh;min-height:260px;display:flex;align-items:flex-end;justify-content:center}
+header.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(58,26,45,0) 45%,rgba(58,26,45,.78) 100%)}
+header.hero .in{position:relative;padding:0 16px 22px}
+header.hero h1{margin:0;font-size:2.4rem;letter-spacing:.04em;text-shadow:0 2px 10px rgba(0,0,0,.55)}
+header.hero p{margin:6px 0 0;font-size:1.05rem;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+@media(min-width:760px){header.hero{aspect-ratio:16/7;background-position:center 30%}header.hero h1{font-size:3rem}}
 .note{font-size:.9rem;opacity:.9}
 nav{position:sticky;top:0;z-index:5;background:rgba(255,247,250,.95);border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px;padding:8px 10px}
 nav a{text-decoration:none;color:var(--accent2);font-weight:700;padding:6px 8px;font-size:.95rem}
@@ -46,15 +51,18 @@ details summary{cursor:pointer;color:var(--sub);margin-top:10px}
 .song .t{font-weight:700;font-size:1.1rem}
 .song .m{color:var(--sub);font-size:.95rem;margin-bottom:6px}
 audio{width:100%}
+a.dl{display:inline-block;margin-top:6px;padding:6px 14px;border:2px solid var(--accent);border-radius:999px;text-decoration:none;font-weight:700;font-size:.9rem}
 #lb{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:20;padding:16px}
 #lb img{max-width:100%;max-height:100%;border-radius:8px}
 footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40px}
 </style>
 </head>
 <body>
-<header class="hero">
-  <h1>mina piano</h1>
-  <p>17LIVEライバー ／ ピアノ</p>
+<header class="hero" role="img" aria-label="mina piano">
+  <div class="in">
+    <h1>mina piano</h1>
+    <p>17LIVEライバー ／ ピアノ</p>
+  </div>
 </header>
 <nav>
   <a href="#links">リンク</a>
@@ -134,6 +142,7 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
       var h='<div class="song"><div class="t">'+esc(r[0])+'</div>';
       if(r[2]) h+='<div class="m">'+esc(r[2])+'</div>';
       h+='<audio controls preload="none" src="'+esc(r[1])+'"></audio>';
+      h+='<div class="m"><a class="dl" href="'+esc(r[1])+'" download="'+esc(r[0].replace(/[\\\/:*?"<>|]/g,' '))+'.mp3">この曲をダウンロード</a></div>';
       if(r[3]&&okUrl(r[3])) h+='<div class="m"><a href="'+esc(r[3])+'" target="_blank" rel="noopener">配信・購入はこちら</a></div>';
       return h+'</div>';
     }).join('');
