@@ -44,6 +44,21 @@ section#app li{margin:4px 0}
 .rep-group li a{text-decoration:none}
 .rep-group li a:hover{text-decoration:underline}
 .rep-group li a::after{content:' ♪';opacity:.6;font-size:.85em}
+#cal{margin:0 0 18px;border:1px solid var(--line);border-radius:14px;padding:10px 8px 12px;background:var(--bg)}
+#cal .ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+#cal .ch b{color:var(--accent2);font-size:1.05rem}
+#cal .ch button{border:0;background:var(--accent);color:#fff;border-radius:999px;width:36px;height:32px;font-size:1rem;font-weight:700;cursor:pointer}
+#cal .g{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}
+#cal .w{font-size:.75rem;color:var(--sub);padding:2px 0}
+#cal .w.su,#cal .cd.su{color:#d2476f}
+#cal .w.sa,#cal .cd.sa{color:#3f78c4}
+#cal .cd{font:inherit;font-size:.95rem;border:0;background:transparent;border-radius:10px;min-height:42px;padding:3px 0;color:var(--ink);position:relative}
+#cal .cd.em{visibility:hidden}
+#cal .cd.today{outline:2px solid var(--line)}
+#cal .cd.has{background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
+#cal .cd.has.past{background:#d9c3cd}
+#cal .cd.has small{display:block;font-size:.62rem;line-height:1;margin-top:2px;font-weight:700}
+.ev.flash{background:#ffe3ee;border-radius:10px;transition:background .3s}
 main{max-width:860px;margin:0 auto;padding:8px 16px 40px}
 section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin:20px 0;box-shadow:0 2px 8px rgba(224,112,159,.08)}
 section h2{margin:0 0 12px;font-size:1.3rem;color:var(--accent2);border-left:6px solid var(--accent);padding-left:10px}
@@ -184,9 +199,32 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
     if(!ev.length){box.innerHTML='<p class="empty">'+t('soon')+'</p>';return;}
     ev.sort(function(a,b){return a[0]<b[0]?-1:a[0]>b[0]?1:0;});
     var n=new Date(),key=n.getFullYear()+'-'+('0'+(n.getMonth()+1)).slice(-2)+'-'+('0'+n.getDate()).slice(-2);
+    var cal={y:null,m:null};
+    var cnt={};ev.forEach(function(r){cnt[r[0]]=(cnt[r[0]]||0)+1;});
+    var WJ=['日','月','火','水','木','金','土'],WE=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],ME=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    function pad(x){return ('0'+x).slice(-2);}
+    function drawCal(){
+      var c=document.getElementById('cal');if(!c)return;
+      var first=new Date(cal.y,cal.m,1).getDay(),days=new Date(cal.y,cal.m+1,0).getDate(),W=lang==='en'?WE:WJ;
+      var h='<div class="ch"><button type="button" data-n="-1" aria-label="prev">◀</button><b>'+(lang==='en'?ME[cal.m]+' '+cal.y:cal.y+'年'+(cal.m+1)+'月')+'</b><button type="button" data-n="1" aria-label="next">▶</button></div><div class="g">';
+      W.forEach(function(w,i){h+='<div class="w'+(i===0?' su':i===6?' sa':'')+'">'+w+'</div>';});
+      for(var i=0;i<first;i++)h+='<div class="cd em"></div>';
+      for(var d=1;d<=days;d++){
+        var k=cal.y+'-'+pad(cal.m+1)+'-'+pad(d),wd=(first+d-1)%7,cl='cd'+(wd===0?' su':wd===6?' sa':'')+(k===key?' today':'');
+        if(cnt[k]){h+='<button type="button" class="'+cl+' has'+(k<key?' past':'')+'" data-d="'+k+'">'+d+'<small>●</small></button>';}
+        else h+='<div class="'+cl+'">'+d+'</div>';
+      }
+      c.innerHTML=h+'</div>';
+    }
+    function goDay(k){
+      var el=document.querySelector('[data-day="'+k+'"]');if(!el)return;
+      var dt=el.closest('details');if(dt)dt.open=true;
+      el.scrollIntoView({behavior:'smooth',block:'center'});
+      el.classList.add('flash');setTimeout(function(){el.classList.remove('flash');},1800);
+    }
     function one(r,past){
       var title=pick(r[2],r[6]),memo=pick(r[3],r[7]);
-      var h='<div class="ev'+(past?' past':'')+'"><div class="d">'+esc(r[0])+(r[1]?'　'+esc(r[1]):'')+'</div><div class="t">'+esc(title)+'</div>';
+      var h='<div class="ev'+(past?' past':'')+'" data-day="'+esc(r[0])+'"><div class="d">'+esc(r[0])+(r[1]?'　'+esc(r[1]):'')+'</div><div class="t">'+esc(title)+'</div>';
       if(memo)h+='<div class="m">'+esc(memo)+'</div>';
       if(r[5]&&okPath(r[5]))h+='<img class="fl" loading="lazy" src="'+esc(r[5])+'" alt="'+esc(title)+'" data-src="'+esc(r[5])+'">';
       if(r[4]&&okUrl(r[4]))h+='<div class="m"><a href="'+esc(r[4])+'" target="_blank" rel="noopener">'+t('more')+'</a></div>';
@@ -195,7 +233,15 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
     var up=ev.filter(function(r){return r[0]>=key;}),pa=ev.filter(function(r){return r[0]<key;}).reverse();
     var html=up.length?up.map(function(r){return one(r,false);}).join(''):'<p class="empty">'+t('noEv')+'</p>';
     if(pa.length)html+='<details><summary>'+t('past').replace('%n',pa.length)+'</summary>'+pa.map(function(r){return one(r,true);}).join('')+'</details>';
-    box.innerHTML=html;zoom(box,'img.fl');
+    var nx=up.length?up[0][0]:key;
+    cal.y=+nx.slice(0,4);cal.m=+nx.slice(5,7)-1;
+    box.innerHTML='<div id="cal"></div>'+html;zoom(box,'img.fl');
+    drawCal();
+    document.getElementById('cal').addEventListener('click',function(e){
+      var b=e.target.closest('button');if(!b)return;
+      if(b.getAttribute('data-n')){cal.m+=+b.getAttribute('data-n');if(cal.m<0){cal.m=11;cal.y--;}if(cal.m>11){cal.m=0;cal.y++;}drawCal();}
+      else if(b.getAttribute('data-d'))goDay(b.getAttribute('data-d'));
+    });
   }
   function renderSongs(){
     var box=document.getElementById('songs-body');
