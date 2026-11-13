@@ -1,8 +1,9 @@
-# オリジナルソング。書き方は「曲名|音声ファイル名|説明|配信や購入のリンク」です。
-# 音声ファイルは、index.html と同じ場所に入れます。説明とリンクは、なければ空でかまいません。
+# オリジナルソング。書き方は「曲名|音声ファイル名|説明|配信や購入のリンク|英語の曲名|英語の説明」です。
+# 音声ファイルは、index.html と同じ場所に入れます。説明・リンク・英語は、なければ空でかまいません。
+# 英語を空にすると、英語版でも日本語のまま表示されます。
 # 新しい曲は、下に1行ずつ足します。(今は試しの5曲です)
-あの日の続き|song1.mp3||
-あの日の続き -classic 壮大なクラシックピアノ独奏のStyle2|song2.mp3||
-私、ミア! 〜うちのみなって、ちょっと不思議〜|song3.mp3||
-ミアもってる? 〜うちのみなは、わかってない!〜|song4.mp3||
-Piano Revolution|song5.mp3||
+あの日の続き|song1.mp3|||The Continuation of That Day|
+あの日の続き -classic 壮大なクラシックピアノ独奏のStyle2|song2.mp3|||The Continuation of That Day -classic (Grand Classical Piano Solo, Style 2)|
+私、ミア! 〜うちのみなって、ちょっと不思議〜|song3.mp3|||I'm Mia! 〜Our Mina Is a Little Mysterious〜|
+ミアもってる? 〜うちのみなは、わかってない!〜|song4.mp3|||Does Mia Have It? 〜Our Mina Just Doesn't Get It!〜|
+Piano Revolution|song5.mp3||||

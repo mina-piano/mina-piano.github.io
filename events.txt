@@ -1,4 +1,5 @@
-# イベント情報。書き方は「日付|時間|タイトル|メモ|リンク|チラシ画像のファイル名」です。
-# 日付は 2026-12-01 のように書きます。時間・メモ・リンク・画像は、なければ空でかまいません。
+# イベント情報。書き方は「日付|時間|タイトル|メモ|リンク|チラシ画像のファイル名|英語タイトル|英語メモ」です。
+# 日付は 2026-12-01 のように書きます。時間・メモ・リンク・画像・英語は、なければ空でかまいません。
+# 英語を空にすると、英語版でも日本語のまま表示されます。
 # 新しいイベントは、下に1行ずつ足します。
-2026-12-13|OPEN 12:30 / START 13:00|灯音 -AKARINE- 〜音がつなぐ時間〜|出演:みな piano / オコナー / パーマ tsubasa ／ 会場:TONE8.0 + BASEMENT GALLERY(大阪市中央区南新町1-1-1 EXA南新町ビル1F) ／ チケット:3,000円(1ドリンク代込み)||akarine-flyer.jpg
+2026-12-13|OPEN 12:30 / START 13:00|灯音 -AKARINE- 〜音がつなぐ時間〜|出演:みな piano / オコナー / パーマ tsubasa ／ 会場:TONE8.0 + BASEMENT GALLERY(大阪市中央区南新町1-1-1 EXA南新町ビル1F) ／ チケット:3,000円(1ドリンク代込み)||akarine-flyer.jpg|AKARINE (灯音) 〜Time Connected by Sound〜|Performers: Mina piano / Okonaa (オコナー) / Paama tsubasa (パーマ tsubasa) / Venue: TONE8.0 + BASEMENT GALLERY (EXA Minamishinmachi Bldg. 1F, 1-1-1 Minamishinmachi, Chuo-ku, Osaka) / Ticket: 3,000 yen (includes 1 drink)
