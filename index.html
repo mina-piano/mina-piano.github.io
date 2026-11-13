@@ -115,6 +115,7 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
 <a class="app-btn" href="#app" data-t="appBtn"></a>
 <nav>
   <a href="#intro" data-t="nIntro"></a>
+  <a href="#calendar" data-t="nCal"></a>
   <a href="#events" data-t="nEvents"></a>
   <a href="#repertoire" data-t="nRepertoire"></a>
   <a href="#links" data-t="nLinks"></a>
@@ -125,6 +126,7 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
 </nav>
 <main>
   <section id="intro"><h2 data-t="nIntro"></h2><div id="intro-body"></div></section>
+  <section id="calendar"><h2 data-t="nCal"></h2><div id="calendar-body"></div></section>
   <section id="events"><h2 data-t="hEvents"></h2><div id="events-body"></div></section>
   <section id="repertoire"><h2 data-t="nRepertoire"></h2><div id="repertoire-body"></div></section>
   <section id="links"><h2 data-t="nLinks"></h2><div id="links-body" class="btns"></div></section>
@@ -157,10 +159,10 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
   var T={
     ja:{title:'mina piano オフィシャルホームページ',sub:'17LIVEライバー ／ ピアノ',nIntro:'mina pianoについて',nRepertoire:'曲リスト',repSearch:'🔍 曲名やアーティスト名で検索',repOther:'その他',repNone:'見つかりませんでした',nLinks:'リンク',nEvents:'イベント',hEvents:'イベント情報',nSongs:'オリジナルソング',nPhotos:'写真',nGame:'リズムゲーム',gameDesc:'オリジナルソングに合わせて、流れてくる音符をタップ! 曲は自動で譜面になります。',gamePlay:'あそんでみる',nShop:'グッズ・楽曲販売',tapHint:'ボタンをタップしてね👇',
         appBtn:'📱 スマホにアイコンを置く方法',nApp:'スマホにアイコンを置く',appLead:'ホーム画面にアイコンを置くと、アプリのように、1回タップするだけで開けます。',appIos:'iPhone(Safari)の場合',appIos1:'Safariでこのページを開きます。',appIos2:'下にある共有ボタン(四角から上向きの矢印)をタップします。',appIos3:'出てきた一覧を上にずらして「ホーム画面に追加」をタップします。',appIos4:'右上の「追加」をタップします。',appAnd:'Androidの場合(Chrome)',appAnd1:'Chromeでこのページを開きます。',appAnd2:'右上の「︙」(点が3つ)をタップします。',appAnd3:'「ホーム画面に追加」→「追加」をタップします。',
-        foot:'このホームページには、個人の情報は掲載していません。',soon:'準備中です',calHint:'日付をタップすると、その日のイベントが開きます。(上の「イベント」ボタンで一覧)',close:'閉じる',noEv:'いまのところ、予定されているイベントはありません。',past:'過去のイベント(%n件)',more:'くわしくはこちら',dl:'この曲をダウンロード',dlPrep:'準備しています…',dlTap:'もういちどタップして保存',dlLine:'LINEの中では保存できません。右下の「…」→「Safariで開く」で開いてください。',dlFail:'保存できませんでした。曲を再生してから、共有ボタンの「ファイルに保存」をお試しください。',buy:'配信・購入はこちら',photo:'写真'},
+        foot:'このホームページには、個人の情報は掲載していません。',soon:'準備中です',nCal:'カレンダー',calHint:'日付をタップすると、その日のイベントが開きます。',close:'閉じる',noEv:'いまのところ、予定されているイベントはありません。',past:'過去のイベント(%n件)',more:'くわしくはこちら',dl:'この曲をダウンロード',dlPrep:'準備しています…',dlTap:'もういちどタップして保存',dlLine:'LINEの中では保存できません。右下の「…」→「Safariで開く」で開いてください。',dlFail:'保存できませんでした。曲を再生してから、共有ボタンの「ファイルに保存」をお試しください。',buy:'配信・購入はこちら',photo:'写真'},
     en:{title:'mina piano Official Website',sub:'17LIVE Streamer / Pianist',nIntro:'About mina piano',nRepertoire:'Song List',repSearch:'🔍 Search by song or artist',repOther:'Other',repNone:'No matches found',nLinks:'Links',nEvents:'Events',hEvents:'Events',nSongs:'Original Songs',nPhotos:'Photos',nGame:'Rhythm Game',gameDesc:'Tap the notes in time with the original songs! Every song becomes a chart automatically.',gamePlay:'Play now',nShop:'Goods & Music Store',tapHint:'Tap a button below 👇',
         appBtn:'📱 Add an icon to your phone',nApp:'Add to your home screen',appLead:'Put an icon on your home screen and open this site with one tap, like an app.',appIos:'iPhone (Safari)',appIos1:'Open this page in Safari.',appIos2:'Tap the share button (square with an arrow pointing up) at the bottom.',appIos3:'Scroll the menu up and tap "Add to Home Screen".',appIos4:'Tap "Add" in the top right.',appAnd:'Android (Chrome)',appAnd1:'Open this page in Chrome.',appAnd2:'Tap the "⋮" menu in the top right.',appAnd3:'Tap "Add to Home screen", then "Add".',
-        foot:'This website does not publish any personal information.',soon:'Coming soon',calHint:'Tap a date to see that day\'s event. (The Events button above shows the full list.)',close:'Close',noEv:'No events are scheduled right now.',past:'Past events (%n)',more:'More info',dl:'Download this song',dlPrep:'Preparing…',dlTap:'Tap again to save',dlLine:'Saving does not work inside LINE. Tap the "…" at the bottom right and choose "Open in Safari".',dlFail:'Could not save. Play the song, then try "Save to Files" from the share button.',buy:'Listen / buy this song',photo:'Photo'}
+        foot:'This website does not publish any personal information.',soon:'Coming soon',nCal:'Calendar',calHint:'Tap a date to see that day\'s event.',close:'Close',noEv:'No events are scheduled right now.',past:'Past events (%n)',more:'More info',dl:'Download this song',dlPrep:'Preparing…',dlTap:'Tap again to save',dlLine:'Saving does not work inside LINE. Tap the "…" at the bottom right and choose "Open in Safari".',dlFail:'Could not save. Play the song, then try "Save to Files" from the share button.',buy:'Listen / buy this song',photo:'Photo'}
   };
   var lang='ja';
   try{
@@ -199,7 +201,6 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
   function renderEvents(){
     var box=document.getElementById('events-body');
     var ev=rows(D.events).filter(function(r){return r[0]&&r[2];});
-    if(!ev.length){box.innerHTML='<p class="empty">'+t('soon')+'</p>';return;}
     ev.sort(function(a,b){return a[0]<b[0]?-1:a[0]>b[0]?1:0;});
     var n=new Date(),key=n.getFullYear()+'-'+('0'+(n.getMonth()+1)).slice(-2)+'-'+('0'+n.getDate()).slice(-2);
     var cal={y:null,m:null};
@@ -230,24 +231,19 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
     var up=ev.filter(function(r){return r[0]>=key;}),pa=ev.filter(function(r){return r[0]<key;}).reverse();
     var nx=up.length?up[0][0]:key;
     cal.y=+nx.slice(0,4);cal.m=+nx.slice(5,7)-1;
-    box.innerHTML='<div id="cal"></div><p class="calhint">'+t('calHint')+'</p><div id="evlist"></div>';
-    var list=document.getElementById('evlist'),mode=null;
-    function closeBtn(){return '<button type="button" class="x">'+t('close')+'</button>';}
+    var html=up.length?up.map(function(r){return one(r,false);}).join(''):'<p class="empty">'+t('noEv')+'</p>';
+    if(pa.length)html+='<details><summary>'+t('past').replace('%n',pa.length)+'</summary>'+pa.map(function(r){return one(r,true);}).join('')+'</details>';
+    box.innerHTML=html;zoom(box,'img.fl');
+    var cbox=document.getElementById('calendar-body');
+    cbox.innerHTML='<div id="cal"></div><p class="calhint">'+t('calHint')+'</p><div id="evlist"></div>';
+    var list=document.getElementById('evlist');
     function draw(m){
-      mode=m;
       if(!m){list.innerHTML='';return;}
-      var html;
-      if(m==='all'){
-        html=up.length?up.map(function(r){return one(r,false);}).join(''):'<p class="empty">'+t('noEv')+'</p>';
-        if(pa.length)html+='<details><summary>'+t('past').replace('%n',pa.length)+'</summary>'+pa.map(function(r){return one(r,true);}).join('')+'</details>';
-      }else{
-        html=ev.filter(function(r){return r[0]===m;}).map(function(r){return one(r,r[0]<key);}).join('');
-      }
-      list.innerHTML=html+closeBtn();zoom(list,'img.fl');
+      list.innerHTML=ev.filter(function(r){return r[0]===m;}).map(function(r){return one(r,r[0]<key);}).join('')+'<button type="button" class="x">'+t('close')+'</button>';
+      zoom(list,'img.fl');
       list.querySelector('.x').addEventListener('click',function(){draw(null);});
       list.scrollIntoView({behavior:'smooth',block:'start'});
     }
-    window.minaEvents={toggleAll:function(){draw(mode==='all'?null:'all');}};
     drawCal();
     document.getElementById('cal').addEventListener('click',function(e){
       var b=e.target.closest('button');if(!b)return;
@@ -370,11 +366,12 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
 <script>
 /* 自己紹介とイベントは常に表示。ほかは上のボタンを押すと、その下に開く(もう一度押すと閉じる) */
 (function(){
-  var PIN=['intro','events'];
+  var PIN=['intro','calendar'];
   var secs=Array.prototype.slice.call(document.querySelectorAll('main > section'));
   var ids=secs.map(function(x){return x.id;});
   var navs=Array.prototype.slice.call(document.querySelectorAll('nav a'));
   function showTab(id,scroll,toggle){
+    if(PIN.indexOf(id)>=0&&scroll){{var tg=document.getElementById(id),nv=document.querySelector('nav');window.scrollTo({top:tg.getBoundingClientRect().top+window.pageYOffset-(nv?nv.offsetHeight:0)-8,behavior:'smooth'});}return;}
     var cur=null;secs.forEach(function(x){if(PIN.indexOf(x.id)<0&&!x.classList.contains('tab-off'))cur=x.id;});
     var open=(PIN.indexOf(id)<0&&ids.indexOf(id)>=0&&!(toggle&&cur===id))?id:null;
     secs.forEach(function(x){if(PIN.indexOf(x.id)<0)x.classList.toggle('tab-off',x.id!==open);});
@@ -391,7 +388,6 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
     var id=a.getAttribute('href').slice(1);
     if(ids.indexOf(id)<0)return;
     e.preventDefault();
-    if(id==='events'){if(window.minaEvents)window.minaEvents.toggleAll();return;}
     try{history.pushState(null,'','#'+id);}catch(x){}
     showTab(id,true,true);
   });
