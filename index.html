@@ -16,7 +16,7 @@
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;line-height:1.7;font-size:17px}
 a{color:var(--accent2)}
-header.hero{position:relative;color:#fff;text-align:center;background:url(header.jpg) 38% center/cover no-repeat,linear-gradient(160deg,#f7b6d0,#e0709f 60%,#b84d7b);aspect-ratio:4/3;max-height:78vh;min-height:260px;display:flex;align-items:flex-end;justify-content:center}
+header.hero{position:relative;color:#fff;text-align:center;background:url(header.jpg?v=2) 38% center/cover no-repeat,linear-gradient(160deg,#f7b6d0,#e0709f 60%,#b84d7b);aspect-ratio:4/3;max-height:78vh;min-height:260px;display:flex;align-items:flex-end;justify-content:center}
 header.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(58,26,45,0) 45%,rgba(58,26,45,.78) 100%)}
 header.hero .in{position:relative;padding:0 16px 22px}
 header.hero h1{margin:0;font-size:2.4rem;letter-spacing:.04em;text-shadow:0 2px 10px rgba(0,0,0,.55)}
@@ -112,9 +112,9 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
 <a class="app-btn" href="#app" data-t="appBtn"></a>
 <nav>
   <a href="#intro" data-t="nIntro"></a>
+  <a href="#events" data-t="nEvents"></a>
   <a href="#repertoire" data-t="nRepertoire"></a>
   <a href="#links" data-t="nLinks"></a>
-  <a href="#events" data-t="nEvents"></a>
   <a href="#songs" data-t="nSongs"></a>
   <a href="#game" data-t="nGame"></a>
   <a href="#photos" data-t="nPhotos"></a>
@@ -122,9 +122,9 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
 </nav>
 <main>
   <section id="intro"><h2 data-t="nIntro"></h2><div id="intro-body"></div></section>
+  <section id="events"><h2 data-t="hEvents"></h2><div id="events-body"></div></section>
   <section id="repertoire"><h2 data-t="nRepertoire"></h2><div id="repertoire-body"></div></section>
   <section id="links"><h2 data-t="nLinks"></h2><div id="links-body" class="btns"></div></section>
-  <section id="events"><h2 data-t="hEvents"></h2><div id="events-body"></div></section>
   <section id="songs"><h2 data-t="nSongs"></h2><div id="songs-body"></div></section>
   <section id="game"><h2 data-t="nGame"></h2><p data-t="gameDesc" style="margin:0 0 12px"></p><a class="btn" href="game.html" id="gamelink" data-t="gamePlay"></a></section>
   <section id="photos"><h2 data-t="nPhotos"></h2><div id="photos-body"></div></section>
@@ -356,16 +356,22 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
 })();
 </script>
 <script>
-/* 上のボタンを押すと、そのコーナーだけが開く */
+/* 自己紹介とイベントは常に表示。ほかは上のボタンを押すと、その下に開く(もう一度押すと閉じる) */
 (function(){
+  var PIN=['intro','events'];
   var secs=Array.prototype.slice.call(document.querySelectorAll('main > section'));
   var ids=secs.map(function(x){return x.id;});
   var navs=Array.prototype.slice.call(document.querySelectorAll('nav a'));
-  function showTab(id,scroll){
-    if(ids.indexOf(id)<0)id=ids[0];
-    secs.forEach(function(x){x.classList.toggle('tab-off',x.id!==id);});
-    navs.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+id);});
-    if(scroll){var n=document.querySelector('nav');window.scrollTo(0,n?n.offsetTop:0);}
+  function showTab(id,scroll,toggle){
+    var cur=null;secs.forEach(function(x){if(PIN.indexOf(x.id)<0&&!x.classList.contains('tab-off'))cur=x.id;});
+    var open=(PIN.indexOf(id)<0&&ids.indexOf(id)>=0&&!(toggle&&cur===id))?id:null;
+    secs.forEach(function(x){if(PIN.indexOf(x.id)<0)x.classList.toggle('tab-off',x.id!==open);});
+    navs.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+open);});
+    if(scroll){
+      var target=document.getElementById(open||(ids.indexOf(id)>=0?id:'intro'));
+      var n=document.querySelector('nav'),h=n?n.offsetHeight:0;
+      if(target)window.scrollTo({top:target.getBoundingClientRect().top+window.pageYOffset-h-8,behavior:'smooth'});
+    }
   }
   document.addEventListener('click',function(e){
     var a=e.target.closest?e.target.closest('a[href^="#"]'):null;
@@ -374,10 +380,10 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
     if(ids.indexOf(id)<0)return;
     e.preventDefault();
     try{history.pushState(null,'','#'+id);}catch(x){}
-    showTab(id,true);
+    showTab(id,true,true);
   });
-  window.addEventListener('popstate',function(){showTab(location.hash.slice(1),false);});
-  showTab(location.hash.slice(1),false);
+  window.addEventListener('popstate',function(){showTab(location.hash.slice(1),false,false);});
+  showTab(location.hash.slice(1),false,false);
 })();
 </script>
 </body>
