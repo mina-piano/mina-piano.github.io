@@ -57,6 +57,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     <p class="hint" data-t="catHow"></p>
     <p class="hint" data-t="mute"></p>
     <a class="home" href="./" data-t="home"></a>
+    <p class="hint" style="text-align:center;opacity:.6" id="ver">ver. 11/13-16:40 (mina cheer)</p>
   </div>
   <div class="screen" id="loadscr"><div id="lt" style="display:flex"></div></div>
   <div class="screen" id="play" style="padding:0">
@@ -87,7 +88,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
         quit:'やめる',again:'もういちど',toMenu:'曲をえらびなおす',easy:'かんたん',normal:'ふつう',hard:'むずかしい',
         building:'譜面を作っています…',loading:'曲を読みこんでいます…',err:'読みこめませんでした。もういちどお試しください。',
         none:'曲が準備中です',perfect:'PERFECT',good:'GOOD',miss:'MISS',combo:'コンボ',score:'スコア',
-        catHow:'ゲーム中、飼い猫のMiaちゃんが邪魔しにくることがあります。のぞいているうちに、音符のないタイミングでそのレーンをタップしてなでなでするか、🐟ボタンでごはんを出すと、上へ連れていけます。ほうっておくと、レーンに座りこんで、タップできなくなります。',catPeek:'Miaちゃんがのぞいてる! タップでなでなで',catBlock:'Miaが邪魔してる! なでなで連打(🐟でもOK)',catHappy:'なでなで成功! ごろごろ♪',catBonus:'なでなでボーナス!',catLure:'ごはんで連れていったよ',rPets:'Miaをなでた回数',ttlS:'🎉 やったね! 大成功!',ttlA:'🎉 やったね! すごーい!',ttlB:'🎉 やったね! クリア!',ttlC:['おつかれさま! あと少しで合格!','おしい! もう少し練習してね','あと少し! もういちどやってみよう','いい感じ! 練習すればもっとよくなるよ'],ttlD:['まずは練習から! だいじょうぶ!','ドンマイ! 何度でも練習してね','ここからが本番! 練習しよう','Miaも応援してるよ! 練習してね'],hintEasy:'ヒント:「かんたん」から練習すると、遊びやすいよ。',cheerS:['やったね!','すごーい!','ブラボー!','おめでとう!','最高!','天才!'],cheerA:['やったね!','すごーい!','おめでとう!','いいね!','ブラボー!'],cheerB:['やったね!','いいね!','がんばった!','おつかれさま!'],cheerC:['おしい!','あと少し!','もういちど!','つぎは いけるよ!','れんしゅうだ!'],cheerD:['だいじょうぶ!','ファイト!','れんしゅうしよう!','がんばれー!','Miaもおうえん!','なんどでも!'],rPerfect:'パーフェクト',rGood:'グッド',rMiss:'ミス',rCombo:'最大コンボ',best:'ハイスコア',notes:'音符'},
+        catHow:'ゲーム中、飼い猫のMiaちゃんが邪魔しにくることがあります。のぞいているうちに、音符のないタイミングでそのレーンをタップしてなでなでするか、🐟ボタンでごはんを出すと、上へ連れていけます。ほうっておくと、レーンに座りこんで、タップできなくなります。',catPeek:'Miaちゃんがのぞいてる! タップでなでなで',catBlock:'Miaが邪魔してる! なでなで連打(🐟でもOK)',catHappy:'なでなで成功! ごろごろ♪',catBonus:'なでなでボーナス!',catLure:'ごはんで連れていったよ',rPets:'Miaをなでた回数',ttlS:'🎉 やったね! 大成功!',ttlA:'🎉 やったね! すごーい!',ttlB:'🎉 やったね! クリア!',ttlC:['おつかれさま! あと少しで合格!','おしい! もう少し練習してね','あと少し! もういちどやってみよう','いい感じ! 練習すればもっとよくなるよ'],ttlD:['まずは練習から! だいじょうぶ!','ドンマイ! 何度でも練習してね','ここからが本番! 練習しよう','Miaも応援してるよ! 練習してね'],hintEasy:'ヒント:「かんたん」から練習すると、遊びやすいよ。',cheerS:['やったね!','すごーい!','ありがとう!','おめでとう!','最高!','天才!'],cheerA:['やったね!','すごーい!','おめでとう!','いいね!','ブラボー!'],cheerB:['やったね!','いいね!','がんばった!','おつかれさま!'],cheerC:['おしい!','あと少し!','もういちど!','つぎは いけるよ!','れんしゅうだ!'],cheerD:['だいじょうぶ!','ファイト!','いっしょにれんしゅうしよう!','がんばれー!','Miaもおうえん!','なんどでも!'],rPerfect:'パーフェクト',rGood:'グッド',rMiss:'ミス',rCombo:'最大コンボ',best:'ハイスコア',notes:'音符'},
     en:{title:'Rhythm Game',sub:'Tap the notes in time with the music!',hSong:'Choose a song',hDiff:'Difficulty',hOff:'Audio offset',
         offHint:'Keep it at 0 normally. If the sound arrives late (e.g. Bluetooth earphones), raise it with +.',
         start:'Start',how:'How to play: tap the lane when a note reaches the line at the bottom. On a computer you can also use the D F J K keys.',
@@ -492,16 +493,28 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     var rkeys={S:'cheerS',A:'cheerA',B:'cheerB',C:'cheerC',D:'cheerD'};
     // ふきだし追加
     if(nw-lastBub>650){
-      lastBub=nw;var list=T[lang][rkeys[rankNow]],p=crowd[Math.floor(Math.random()*crowd.length)];
-      bubbles.push({x:p.x,y:rH-(p.row?150:190),t:nw,txt:list[Math.floor(Math.random()*list.length)]});
+      lastBub=nw;var list=T[lang][rkeys[rankNow]];
+      bubbles.push({x:rW/2-26+(Math.random()<.5?-1:1)*(92+Math.random()*30),y:46+Math.random()*100,t:nw,txt:list[Math.floor(Math.random()*list.length)]});
       if(bubbles.length>5)bubbles.shift();
     }
-    // 後ろの列 → 前の列
-    var order=crowd.slice().sort(function(a,b){return a.row-b.row;});
-    order.forEach(function(p,idx){drawPerson(p.x,rH-(p.row?36:76),p.row?.95:.78,crowd.indexOf(p),tm);});
-    // Mia(中央・前)
+    // ピアニストのみなさん(ヘッダー画像の人物を切り抜いて表示)
+    var low=(rankNow==='C'||rankNow==='D'),sp=low?4:6.5,bob=Math.sin(tm*sp)*(low?3:6),rot=Math.sin(tm*sp*.5)*(low?.02:.045);
+    var pw=150,ph=196,px0=rW/2-pw/2-26,py0=16+bob;
+    rg.save();rg.translate(px0+pw/2,py0+ph/2);rg.rotate(rot);
+    rg.shadowColor='rgba(255,143,184,.9)';rg.shadowBlur=26;rg.fillStyle='#ffb3d1';rr(-pw/2-5,-ph/2-5,pw+10,ph+10,28);rg.fill();rg.shadowBlur=0;
+    rg.save();rr(-pw/2,-ph/2,pw,ph,24);rg.clip();
+    if(bgok){rg.drawImage(bgimg,bgimg.width*.215,bgimg.height*.005,bgimg.width*.275,bgimg.height*.66,-pw/2,-ph/2,pw,ph);}
+    else{rg.fillStyle='#e0709f';rg.fillRect(-pw/2,-ph/2,pw,ph);}
+    rg.restore();
+    rg.lineWidth=4;rg.strokeStyle='#fff';rr(-pw/2,-ph/2,pw,ph,24);rg.stroke();
+    rg.restore();
+    // 名前のリボン
+    rg.save();rg.font='bold 15px sans-serif';rg.textAlign='center';rg.textBaseline='middle';
+    var nm='mina piano',nwid=rg.measureText(nm).width+26,nx=px0+pw/2-nwid/2,ny=py0+ph+4;
+    rg.fillStyle='#e0709f';rr(nx,ny-4,nwid,26,13);rg.fill();rg.strokeStyle='#fff';rg.lineWidth=2;rg.stroke();rg.fillStyle='#fff';rg.fillText(nm,px0+pw/2,ny+9);rg.restore();
+    // Mia(となりで喜ぶ)
     var happyPulse=1-.05*Math.abs(Math.sin(tm*7));
-    drawCatSit(rW/2,rH+4,.62,true,happyPulse);
+    drawCatSit(rW/2+86,rH+4,.5,true,happyPulse);
     // ふきだし
     bubbles.forEach(function(b){
       var a=(nw-b.t)/1800;if(a>1)return;var al=a<.1?a*10:a>.75?1-(a-.75)*4:1,yy=b.y-a*26;
