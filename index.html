@@ -41,6 +41,9 @@ section#app li{margin:4px 0}
 .rep-group h3{margin:0 0 6px;font-size:.95rem;color:var(--accent2);border-bottom:1px dashed var(--line);padding-bottom:4px}
 .rep-group ul{margin:0;padding-left:1.2em;column-width:200px}
 .rep-group li{margin:4px 0;break-inside:avoid}
+.rep-group li a{text-decoration:none}
+.rep-group li a:hover{text-decoration:underline}
+.rep-group li a::after{content:' ♪';opacity:.6;font-size:.85em}
 main{max-width:860px;margin:0 auto;padding:8px 16px 40px}
 section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin:20px 0;box-shadow:0 2px 8px rgba(224,112,159,.08)}
 section h2{margin:0 0 12px;font-size:1.3rem;color:var(--accent2);border-left:6px solid var(--accent);padding-left:10px}
@@ -253,8 +256,11 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
     groups.sort(function(a,b){return a.name==t('repOther')?1:b.name==t('repOther')?-1:a.name.localeCompare(b.name,'ja');});
     var html='<input type="text" class="rep-search" id="rep-search" placeholder="'+t('repSearch')+'">';
     html+='<div id="rep-list">'+groups.map(function(g){
+      var isOther=g.name===t('repOther');
       return '<div class="rep-group"><h3>'+esc(g.name)+'</h3><ul>'+g.songs.map(function(s){
-        return '<li>'+esc(s)+'</li>';
+        var q=encodeURIComponent(isOther?s:(s+' '+g.name));
+        var url='https://open.spotify.com/search/'+q;
+        return '<li><a href="'+url+'" target="_blank" rel="noopener">'+esc(s)+'</a></li>';
       }).join('')+'</ul></div>';
     }).join('')+'</div>';
     html+='<p class="empty" id="rep-empty" style="display:none">'+t('repNone')+'</p>';
