@@ -1,0 +1,221 @@
+# みなさんが弾ける曲(リクエストできる曲)を、1行に1曲ずつ書きます。
+# 書き方は「曲名」または「曲名|作曲者・アーティスト名」です。
+# 行の先頭に # を付けると、その行は無視されます。
+# lit.link のプロフィールをもとに作りました。曲が増えたら、この下に1行ずつ足してください。
+
+Story|AI
+カブトムシ|aiko
+KissHug|aiko
+花火|aiko
+創聖のアクエリオン|AKINO
+新時代|Ado
+Dancing Queen|ABBA
+Beauty and the Beast|Ariana Grande / John Legend
+オリビアを聴きながら|杏里
+卒業写真|荒井由実
+ひこうき雲|荒井由実
+ルージュの伝言|荒井由実
+ワインレッドの心|安全地帯
+ありがとう|いきものがかり
+SAKURA|いきものがかり
+ブルーバード|いきものがかり
+YELL|いきものがかり
+ブルーライトヨコハマ|いしだあゆみ
+Let It Go|Idina Menzel
+ハナミズキ|一青窈
+なごり雪|イルカ
+She|Elvis Costello
+Time Goes By|Every Little Thing
+Flavor of Life|宇多田ヒカル
+Tears|X JAPAN
+Forever Love|X JAPAN
+Endless Rain|X JAPAN
+いすゞのトラック|大友康平
+言葉にできない|小田和正
+ラブ・ストーリーは突然に|小田和正
+たしかなこと|小田和正
+木枯しに抱かれて|小泉今日子
+あなたに会えてよかった|小泉今日子
+I LOVE YOU|尾崎豊
+オーマイリトルガール|尾崎豊
+遥かなる影|カーペンターズ
+Rainy Days and Mondays|カーペンターズ
+贈る言葉|海援隊
+Best Friend|Kiroro
+未来へ|Kiroro
+長い間|Kiroro
+逆夢|King Gnu
+人生のメリーゴーランド|久石譲
+海の見える街|久石譲
+あの日の川|久石譲
+風の谷のナウシカ|久石譲
+Summer|久石譲
+風の通り道|久石譲
+あの夏へ|久石譲
+白い恋人達|桑田佳祐
+ムーンライトセレナーデ|Glenn Miller
+GOLDFINGER'99|郷ひろみ
+億千の光|郷ひろみ
+蕾|コブクロ
+TSUNAMI|サザンオールスターズ
+真夏の果実|サザンオールスターズ
+いとしのエリー|サザンオールスターズ
+戦場のメリークリスマス|坂本龍一
+Energy Flow|坂本龍一
+見上げてごらん夜の星を|坂本九
+宇宙戦艦ヤマト|ささきいさお
+Time To Say Goodbye|サラ・ブライトマン
+負けないで|ZARD
+NIPPON|椎名林檎
+Baby|清塚信也
+God Bless You|清塚信也
+奏|スキマスイッチ
+全力少年|スキマスイッチ
+スカーレット|スピッツ
+ロビンソン|スピッツ
+空も飛べるはず|スピッツ
+楓|スピッツ
+涙がキラリ|スピッツ
+君が思い出になる前に|スピッツ
+運命の人|スピッツ
+遥か|スピッツ
+正夢|スピッツ
+春の歌|スピッツ
+チェリー|スピッツ
+冷たい頬|スピッツ
+スパイダー|スピッツ
+スターゲイザー|スピッツ
+愛のことば|スピッツ
+オレンジ|SMAP
+夜空ノムコウ|SMAP
+世界に一つだけの花|SMAP
+らいおんハート|SMAP
+White Love|SPEED
+残酷な天使のテーゼ|高橋洋子
+魂のルフラン|高橋洋子
+元気を出して|竹内まりや
+Plastic Love|竹内まりや
+純愛ラプソディ|竹内まりや
+毎日がスペシャル|竹内まりや
+家に帰ろう|竹内まりや
+いのちの歌|竹内まりや
+メロディー|玉置浩二
+風になる|つじあやの
+壊れかけのRadio|徳永英明
+糸|中島みゆき
+地上の星|中島みゆき
+雪の華|中島美嘉
+ORION|中島美嘉
+飾りじゃないのよ涙は|中森明菜
+セカンドラブ|中森明菜
+高嶺の花子さん|back number
+花束|back number
+ヒロイン|back number
+クリスマスソング|back number
+ultra soul|B'z
+今夜月の見える丘に|B'z
+いつかのメリークリスマス|B'z
+Honesty|Billy Joel
+瞳を閉じて|平井堅
+Jupiter|平原綾香
+ロマンスの神様|広瀬香美
+赤いスイートピー|松田聖子
+天使のウィンク|松田聖子
+瑠璃色の地球|松田聖子
+瞳はダイアモンド|松田聖子
+青い珊瑚礁|松田聖子
+チェリーブラッサム|松田聖子
+風立ちぬ|松田聖子
+Sweet Memories|松田聖子
+抱いて|松田聖子
+あなたに逢いたくて|松田聖子
+春よ、来い|松任谷由実
+卒業写真|松任谷由実
+大空と大地の中で|松山千春
+どんなときも|槇原敬之
+Everything|MISIA
+Believe|MISIA
+アイノカタチ|MISIA
+逢いたくていま|MISIA
+眠れぬ夜は君のせい|MISIA
+忘れない日々|MISIA
+ダーリン|Mrs. GREEN APPLE
+点描の唄|Mrs. GREEN APPLE
+秋桜|山口百恵
+さよならの向う側|山口百恵
+いい日旅立ち|山口百恵
+One more time|山崎まさよし
+One more chance|山崎まさよし
+栄光の架橋|ゆず
+雨のちハレルヤ|ゆず
+夜に駆ける|YOASOBI
+アイドル|YOASOBI
+群青|YOASOBI
+CHE.R.RY|YUI
+Happy Birthday to You|YUI
+Sparkle|RADWIMPS
+Last Christmas|Wham!
+英雄ポロネーズ|ショパン
+子犬のワルツ|ショパン
+別れの曲|ショパン
+ノクターン|ショパン
+バラード第1番|ショパン
+ワルツ Op.69-1|ショパン
+幻想即興曲|ショパン
+黒鍵のエチュード|ショパン
+エリーゼのために|ベートーヴェン
+月光ソナタ|ベートーヴェン
+悲愴ソナタ|ベートーヴェン
+テンペスト|ベートーヴェン
+愛の夢|リスト
+ため息|リスト
+トロイメライ|シューマン
+献呈|シューマン
+亡き王女のためのパヴァーヌ|ラヴェル
+Gymnopédie No.1|サティ
+カノン|パッヘルベル
+シシリエンヌ|フォーレ
+四季|チャイコフスキー
+花のワルツ|チャイコフスキー
+Any|Mr.Children
+Birthday|Mr.Children
+Cross Road|Mr.Children
+GIFT|Mr.Children
+HANABI|Mr.Children
+HERO|Mr.Children
+innocent world|Mr.Children
+pieces|Mr.Children
+Sign|Mr.Children
+Tomorrow never knows|Mr.Children
+youthful days|Mr.Children
+彩り|Mr.Children
+祈り|Mr.Children
+優しい歌|Mr.Children
+君がいた夏|Mr.Children
+君が好き|Mr.Children
+くるみ|Mr.Children
+口笛|Mr.Children
+箒星|Mr.Children
+しるし|Mr.Children
+シーソーゲーム|Mr.Children
+常套句|Mr.Children
+365日|Mr.Children
+名もなき詩|Mr.Children
+花|Mr.Children
+光の射す方へ|Mr.Children
+エソラ|Mr.Children
+旅立ちの唄|Mr.Children
+終わりなき旅|Mr.Children
+明日また|JUJU
+奇跡を望むなら|JUJU
+セイリング|クリストファークロス
+Life's Like A Love Song|矢井田瞳
+イエスタデイ|Official髭男dism
+ノクターン|アザラシヴィリ
+クレイジーパーティーナイト|きゃりーぱみゅぱみゅ
+粉雪|レミオロメン
+美少女戦士セーラームーン
+おジャ魔女ドレミカーニバル
+銀河鉄道999
+えんとつ町のプペル
+惑星よりジュピター
