@@ -30,6 +30,8 @@ h2{font-size:1rem;color:#ffb3d1;margin:16px 0 8px}
 a.home{color:#ffb3d1;text-align:center;display:block;margin-top:18px}
 canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 #quit{position:absolute;top:10px;left:10px;z-index:3;border:2px solid #ffffff88;background:#00000055;color:#fff;border-radius:999px;padding:6px 12px;font-size:.85rem}
+#fish{position:absolute;top:48px;left:10px;z-index:3;border:2px solid #ffffff88;background:#00000055;color:#fff;border-radius:999px;padding:6px 12px;font-size:.85rem}
+#fish.off{opacity:.4}
 #lt{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;font-size:1.1rem;padding:20px}
 .res{text-align:center}
 .res .rank{font-size:6rem;font-weight:800;color:#fff;line-height:1.1;text-shadow:0 0 22px #ff8fb8,0 0 50px #e0709f}
@@ -51,6 +53,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     <p class="hint" data-t="offHint"></p>
     <button class="big" id="start" type="button" data-t="start"></button>
     <p class="hint" data-t="how"></p>
+    <p class="hint" data-t="catHow"></p>
     <p class="hint" data-t="mute"></p>
     <a class="home" href="./" data-t="home"></a>
   </div>
@@ -58,6 +61,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
   <div class="screen" id="play" style="padding:0">
     <canvas id="cv"></canvas>
     <button id="quit" type="button" data-t="quit"></button>
+    <button id="fish" type="button">🐟</button>
   </div>
   <div class="screen" id="result">
     <div class="res" style="margin:auto 0">
@@ -80,7 +84,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
         quit:'やめる',again:'もういちど',toMenu:'曲をえらびなおす',easy:'かんたん',normal:'ふつう',hard:'むずかしい',
         building:'譜面を作っています…',loading:'曲を読みこんでいます…',err:'読みこめませんでした。もういちどお試しください。',
         none:'曲が準備中です',perfect:'PERFECT',good:'GOOD',miss:'MISS',combo:'コンボ',score:'スコア',
-        rPerfect:'パーフェクト',rGood:'グッド',rMiss:'ミス',rCombo:'最大コンボ',best:'ハイスコア',notes:'音符'},
+        catHow:'ゲーム中、飼い猫のMiaちゃんが邪魔しにくることがあります。のぞいているうちに、音符のないタイミングでそのレーンをタップしてなでなでするか、🐟ボタンでごはんを出すと、上へ連れていけます。ほうっておくと、レーンに座りこんで、タップできなくなります。',catPeek:'Miaちゃんがのぞいてる! タップでなでなで',catBlock:'Miaが邪魔してる! なでなで連打(🐟でもOK)',catHappy:'なでなで成功! ごろごろ♪',catBonus:'なでなでボーナス!',catLure:'ごはんで連れていったよ',rPets:'Miaをなでた回数',rPerfect:'パーフェクト',rGood:'グッド',rMiss:'ミス',rCombo:'最大コンボ',best:'ハイスコア',notes:'音符'},
     en:{title:'Rhythm Game',sub:'Tap the notes in time with the music!',hSong:'Choose a song',hDiff:'Difficulty',hOff:'Audio offset',
         offHint:'Keep it at 0 normally. If the sound arrives late (e.g. Bluetooth earphones), raise it with +.',
         start:'Start',how:'How to play: tap the lane when a note reaches the line at the bottom. On a computer you can also use the D F J K keys.',
@@ -88,7 +92,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
         quit:'Quit',again:'Play again',toMenu:'Choose another song',easy:'Easy',normal:'Normal',hard:'Hard',
         building:'Creating the chart…',loading:'Loading the song…',err:'Could not load the song. Please try again.',
         none:'Songs are coming soon',perfect:'PERFECT',good:'GOOD',miss:'MISS',combo:'Combo',score:'Score',
-        rPerfect:'Perfect',rGood:'Good',rMiss:'Miss',rCombo:'Max combo',best:'Best',notes:'notes'}
+        catHow:'During the game your cat Mia may come to get in the way. While she is peeking, tap her lane at a moment with no note to pet her, or press the 🐟 button to lead her away with food. If you ignore her she sits on the lanes and blocks your taps.',catPeek:'Mia is peeking! Tap to pet her',catBlock:'Mia is in the way! Tap to pet her (or use the fish)',catHappy:'Purr purr ♪',catBonus:'Petting bonus!',catLure:'Mia followed the fish',rPets:'Times you petted Mia',rPerfect:'Perfect',rGood:'Good',rMiss:'Miss',rCombo:'Max combo',best:'Best',notes:'notes'}
   };
   var lang='ja';
   try{
@@ -219,13 +223,14 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
   function tap(lane){
     if(!running)return;
     flashes[lane]=1;
+    if(cat&&cat.state==='block'&&lane>=cat.lane&&lane<=cat.lane+1){petCat();return;}
     var tm=judgeTime(),best=null,bd=1;
     for(var i=0;i<notes.length;i++){
       var n=notes[i];if(n.done||n.lane!==lane)continue;
       var d=Math.abs(n.t-tm);if(n.t-tm>.3)break;
       if(d<bd){bd=d;best=n;}
     }
-    if(!best||bd>.16)return;
+    if(!best||bd>.16){if(cat&&cat.state==='peek'&&lane>=cat.lane&&lane<=cat.lane+1)petCat();return;}
     best.done=true;
     if(bd<=.075){st.perf++;st.earned+=1;pop('perfect',lane);burst(lane,28,true);}else{st.good++;st.earned+=.6;pop('good',lane);burst(lane,14,false);}
     st.combo++;comboT=performance.now();pulse=1;if(st.combo>st.maxc)st.maxc=st.combo;
@@ -260,28 +265,176 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
   }
   function play(buf,chart){
     notes=chart;dur=buf.duration;st={score:0,earned:0,combo:0,maxc:0,perf:0,good:0,miss:0};pops=[];flashes=[0,0,0,0];parts=[];rings=[];pulse=0;comboT=0;
+    cat=null;hearts=[];msgO=null;petTotal=0;lastLane=-1;fishLeft=CAT[diff].fish;nextCat=CAT[diff].first+Math.random()*6;fishBtn();
     show('play');resize();
     src=ctx.createBufferSource();src.buffer=buf;src.connect(ctx.destination);
     startAt=ctx.currentTime+2.2;src.start(startAt);running=true;
     cancelAnimationFrame(raf);raf=requestAnimationFrame(loop);
-    window.__mina={notes:notes,gt:gt,tap:tap,st:st};
+    window.__mina={notes:notes,gt:gt,tap:tap,st:st,spawnCat:spawnCat,useFish:useFish,petCat:petCat,getCat:function(){return cat;},getPets:function(){return petTotal;}};
   }
   function stop(){
-    running=false;cancelAnimationFrame(raf);
+    running=false;cancelAnimationFrame(raf);cat=null;
     try{if(src){src.onended=null;src.stop();}}catch(e){}
     src=null;
   }
   function finish(){
     stop();
-    var total=notes.length||1,acc=st.earned/total,score=Math.round(acc*1000000);
+    var total=notes.length||1,acc=Math.min(1,st.earned/total),score=Math.round(acc*1000000);
     var rank=acc>=.95?'S':acc>=.85?'A':acc>=.7?'B':'C';
     var key='mina-best-'+cur.file+'-'+diff,bs=parseInt(store(key)||'0',10)||0;
     if(score>bs){bs=score;store(key,String(bs));}
     $('rsong').textContent=pick(cur.ja,cur.en)+' / '+t(diff);
     $('rrank').textContent=rank;
     $('rscore').textContent=score.toLocaleString();
-    $('rstat').innerHTML=t('rPerfect')+' '+st.perf+'　'+t('rGood')+' '+st.good+'　'+t('rMiss')+' '+st.miss+'<br>'+t('rCombo')+' '+st.maxc+' / '+notes.length+' '+t('notes')+'<br>'+t('best')+' '+bs.toLocaleString();
+    $('rstat').innerHTML=t('rPerfect')+' '+st.perf+'　'+t('rGood')+' '+st.good+'　'+t('rMiss')+' '+st.miss+'<br>'+t('rCombo')+' '+st.maxc+' / '+notes.length+' '+t('notes')+'<br>'+t('rPets')+' '+petTotal+'<br>'+t('best')+' '+bs.toLocaleString();
     show('result');
+  }
+
+  /* ---------- Miaちゃん ---------- */
+  var CAT={easy:{first:16,gap:[38,52],peek:3.4,peekNeed:2,block:4,blockNeed:4,fish:3},
+           normal:{first:14,gap:[26,38],peek:2.8,peekNeed:3,block:5.5,blockNeed:6,fish:3},
+           hard:{first:12,gap:[18,28],peek:2.2,peekNeed:3,block:6.5,blockNeed:8,fish:2}};
+  var cat=null,nextCat=0,fishLeft=0,petTotal=0,hearts=[],msgO=null,lastPet=0,lastLane=-1;
+  function rnd(a,b){return a+Math.random()*(b-a);}
+  function ease(x){x=Math.max(0,Math.min(1,x));return 1-Math.pow(1-x,3);}
+  function setMsg(k){msgO={k:k,t:performance.now()};}
+  function fishBtn(){var b=$('fish');b.textContent='🐟 ×'+fishLeft;b.className=fishLeft>0?'':'off';}
+  function meow(){
+    try{
+      var c=ctx,t0=c.currentTime,o=c.createOscillator(),f=c.createBiquadFilter(),gn=c.createGain();
+      o.type='sawtooth';o.frequency.setValueAtTime(520,t0);o.frequency.linearRampToValueAtTime(860,t0+.16);o.frequency.linearRampToValueAtTime(480,t0+.5);
+      f.type='bandpass';f.frequency.setValueAtTime(900,t0);f.frequency.linearRampToValueAtTime(1700,t0+.2);f.frequency.linearRampToValueAtTime(800,t0+.5);f.Q.value=3;
+      gn.gain.setValueAtTime(0,t0);gn.gain.linearRampToValueAtTime(.09,t0+.06);gn.gain.linearRampToValueAtTime(0,t0+.52);
+      o.connect(f);f.connect(gn);gn.connect(c.destination);o.start(t0);o.stop(t0+.55);
+    }catch(e){}
+  }
+  function spawnCat(kind){
+    var lane;do{lane=Math.floor(Math.random()*3);}while(lane===lastLane);lastLane=lane;
+    cat={state:'peek',form:kind||(Math.random()<.5?'head':'tail'),lane:lane,t0:gt(),pets:0};
+    setMsg('catPeek');meow();
+  }
+  function endCat(now){cat=null;nextCat=now+rnd(CAT[diff].gap[0],CAT[diff].gap[1]);}
+  function petCat(){
+    if(!cat||(cat.state!=='peek'&&cat.state!=='block'))return;
+    var C=CAT[diff],laneW=W/4,now=gt();
+    cat.pets++;petTotal++;lastPet=performance.now();
+    hearts.push({x:(cat.lane+1)*laneW+rnd(-30,30),y:H*(cat.state==='block'?.78:.9),t:performance.now()});
+    var need=cat.state==='peek'?C.peekNeed:C.blockNeed;
+    if(cat.pets>=need){
+      var wasPeek=cat.state==='peek';
+      if(wasPeek){st.earned+=2;setMsg('catBonus');}else setMsg('catHappy');
+      cat.state='happy';cat.t0=now;
+    }
+  }
+  function useFish(){
+    if(!running||!cat||fishLeft<=0)return;
+    if(cat.state!=='peek'&&cat.state!=='block')return;
+    fishLeft--;fishBtn();
+    cat.form=(cat.state==='block')?'sit':'head';cat.state='lure';cat.t0=gt();setMsg('catLure');
+  }
+  function updateCat(now){
+    var C=CAT[diff];
+    if(!cat){if(now>0&&now>=nextCat&&now<dur-9)spawnCat();return;}
+    var el=now-cat.t0;
+    if(cat.state==='peek'){if(el>=C.peek){cat.state='block';cat.form='sit';cat.t0=now;cat.pets=0;setMsg('catBlock');meow();}}
+    else if(cat.state==='block'){if(el>=C.block){cat.state='leave';cat.t0=now;}}
+    else if(cat.state==='happy'){if(el>=.9){cat.state='leave';cat.t0=now;}}
+    else if(cat.state==='lure'){if(el>=1.5)endCat(now);}
+    else if(cat.state==='leave'){if(el>=.6)endCat(now);}
+  }
+  function drawCatHead(x,y,s,happy){
+    g.save();g.translate(x,y);g.scale(s,s);
+    g.lineJoin='round';g.lineWidth=2.5;g.strokeStyle='#d9bba8';
+    [-1,1].forEach(function(d){
+      g.fillStyle=d<0?'#c98d5a':'#fff6f0';
+      g.beginPath();g.moveTo(d*46,-16);g.lineTo(d*40,-66);g.lineTo(d*10,-42);g.closePath();g.fill();g.stroke();
+      g.fillStyle='#ffb9c9';g.beginPath();g.moveTo(d*38,-26);g.lineTo(d*35,-52);g.lineTo(d*18,-40);g.closePath();g.fill();
+    });
+    g.fillStyle='#fff6f0';g.beginPath();g.arc(0,0,50,0,7);g.fill();g.stroke();
+    g.save();g.beginPath();g.arc(0,0,49,0,7);g.clip();
+    g.fillStyle='#c98d5a';g.beginPath();g.ellipse(-26,-16,30,30,0,0,7);g.fill();
+    g.beginPath();g.ellipse(34,-44,20,16,0,0,7);g.fill();
+    g.restore();
+    g.strokeStyle='#8a5a36';g.lineWidth=3;g.lineCap='round';
+    [-9,0,9].forEach(function(dx){g.beginPath();g.moveTo(dx,-48);g.lineTo(dx*.8,-34);g.stroke();});
+    g.strokeStyle='#3a2a33';g.fillStyle='#3a2a33';
+    [-19,19].forEach(function(ex){
+      if(happy){g.lineWidth=4;g.beginPath();g.arc(ex,0,9,Math.PI*1.12,Math.PI*1.88);g.stroke();}
+      else{g.beginPath();g.ellipse(ex,-2,7,10,0,0,7);g.fill();g.fillStyle='#fff';g.beginPath();g.arc(ex+2,-6,3,0,7);g.fill();g.fillStyle='#3a2a33';}
+    });
+    g.fillStyle='rgba(255,140,170,.4)';g.beginPath();g.arc(-33,14,9,0,7);g.arc(33,14,9,0,7);g.fill();
+    g.fillStyle='#ff8fa8';g.beginPath();g.moveTo(-6,12);g.lineTo(6,12);g.lineTo(0,19);g.closePath();g.fill();
+    g.strokeStyle='#3a2a33';g.lineWidth=2.2;g.beginPath();g.moveTo(0,19);g.lineTo(0,23);g.stroke();
+    g.beginPath();g.arc(-6,23,6,0,Math.PI*.9);g.stroke();g.beginPath();g.arc(6,23,6,Math.PI*.1,Math.PI);g.stroke();
+    g.strokeStyle='rgba(120,100,100,.7)';g.lineWidth=1.6;
+    [-1,1].forEach(function(d){g.beginPath();g.moveTo(d*30,14);g.lineTo(d*66,6);g.stroke();g.beginPath();g.moveTo(d*30,19);g.lineTo(d*66,23);g.stroke();});
+    g.restore();
+  }
+  function drawBow(x,y){
+    g.fillStyle='#a01d3a';g.strokeStyle='#6d1226';g.lineWidth=2;
+    [-1,1].forEach(function(d){g.beginPath();g.moveTo(x,y);g.lineTo(x+d*26,y-14);g.lineTo(x+d*26,y+14);g.closePath();g.fill();g.stroke();});
+    g.fillStyle='#ffd45e';g.beginPath();g.arc(x,y,7,0,7);g.fill();g.stroke();
+  }
+  function drawCatSit(x,baseY,s,happy,squish){
+    g.save();g.translate(x,baseY);g.scale(s,s*squish);
+    g.lineJoin='round';g.lineCap='round';
+    g.strokeStyle='#8a5a36';g.lineWidth=24;g.beginPath();g.moveTo(66,-18);g.bezierCurveTo(118,-22,122,-92,84,-104);g.stroke();
+    g.strokeStyle='#c98d5a';g.lineWidth=18;g.beginPath();g.moveTo(66,-18);g.bezierCurveTo(118,-22,122,-92,84,-104);g.stroke();
+    g.fillStyle='#fff6f0';g.strokeStyle='#d9bba8';g.lineWidth=2.5;
+    g.beginPath();g.ellipse(0,-60,80,62,0,0,7);g.fill();g.stroke();
+    g.save();g.beginPath();g.ellipse(0,-60,79,61,0,0,7);g.clip();
+    g.fillStyle='#c98d5a';g.beginPath();g.ellipse(46,-74,40,44,0,0,7);g.fill();
+    g.beginPath();g.ellipse(-70,-30,26,30,0,0,7);g.fill();
+    g.restore();
+    g.fillStyle='#fff6f0';g.strokeStyle='#d9bba8';
+    [-30,30].forEach(function(px){g.beginPath();g.ellipse(px,-9,23,14,0,0,7);g.fill();g.stroke();});
+    drawCatHead(0,-118,1,happy);
+    drawBow(0,-68);
+    g.restore();
+  }
+  function drawTail(x,y,s,t){
+    var pts=[],i;
+    for(i=0;i<=18;i++)pts.push([x+Math.sin(t*5+i*.5)*16*s*(.3+i/18),y-i*6.5*s]);
+    function path(){g.beginPath();g.moveTo(pts[0][0],pts[0][1]);for(var k=1;k<pts.length;k++)g.lineTo(pts[k][0],pts[k][1]);}
+    g.lineCap='round';g.lineJoin='round';
+    g.strokeStyle='#8a5a36';g.lineWidth=24*s;path();g.stroke();
+    g.strokeStyle='#c98d5a';g.lineWidth=18*s;path();g.stroke();
+    g.strokeStyle='#8a5a36';g.lineWidth=3*s;
+    for(i=4;i<17;i+=4){g.beginPath();g.moveTo(pts[i][0]-8*s,pts[i][1]);g.lineTo(pts[i][0]+8*s,pts[i][1]);g.stroke();}
+    g.fillStyle='#fff6f0';g.beginPath();g.arc(pts[18][0],pts[18][1],10*s,0,7);g.fill();
+  }
+  function drawFish(x,y,s){
+    g.save();g.translate(x,y);g.scale(s,s);
+    g.fillStyle='#8fe0ff';g.strokeStyle='#fff';g.lineWidth=2.5;
+    g.beginPath();g.ellipse(0,0,30,15,0,0,7);g.fill();g.stroke();
+    g.beginPath();g.moveTo(26,0);g.lineTo(46,-14);g.lineTo(46,14);g.closePath();g.fill();g.stroke();
+    g.fillStyle='#1d0b17';g.beginPath();g.arc(-16,-3,3,0,7);g.fill();
+    g.restore();
+  }
+  function drawCat(now){
+    if(!cat)return;
+    var laneW=W/4,cx=(cat.lane+1)*laneW,sc=laneW*2/236,el=now-cat.t0,happy=(cat.state==='happy');
+    var squish=1-.07*Math.max(0,1-(performance.now()-lastPet)/140);
+    if(cat.form==='tail'&&cat.state==='peek'){drawTail(cx,H+8,sc,now);return;}
+    if(cat.form==='tail'&&(cat.state==='leave'||happy)){
+      var pt=cat.state==='leave'?Math.min(1,el/.6):0;drawTail(cx,H+8+pt*220*sc,sc,now);return;}
+    if(cat.form==='head'){
+      var up=H+55*sc-105*sc,hy;
+      if(cat.state==='peek')hy=H+55*sc-ease(el/.45)*105*sc*(1+.05*Math.sin(el*8));
+      else if(cat.state==='happy')hy=up;
+      else if(cat.state==='leave')hy=up+Math.min(1,el/.6)*110*sc;
+      else hy=up-Math.min(1,el/1.5)*(H+260);
+      drawCatHead(cx,hy,sc*1.05,happy);
+      if(cat.state==='lure')drawFish(cx,hy-100*sc-10,sc*1.1);
+      return;
+    }
+    var by;
+    if(cat.state==='block')by=H+6+(1-ease(el/.35))*280*sc;
+    else if(cat.state==='happy')by=H+6;
+    else if(cat.state==='leave')by=H+6+Math.min(1,el/.6)*290*sc;
+    else by=H+6-Math.min(1,el/1.5)*(H+320);
+    drawCatSit(cx,by,sc,happy,cat.state==='block'||happy?squish:1);
+    if(cat.state==='lure')drawFish(cx,by-205*sc-12,sc*1.1);
   }
   function rr(x,y,w,h,r){g.beginPath();if(g.roundRect){g.roundRect(x,y,w,h,r);}else{g.rect(x,y,w,h);}}
   function loop(){
@@ -292,6 +445,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
       if(n.t<tm-.16){n.done=true;st.miss++;st.combo=0;pop('miss',n.lane);}
       else if(n.t>tm+F)break;
     }
+    updateCat(now);
     // 背景
     g.fillStyle='#1d0b17';g.fillRect(0,0,W,H);
     if(bgok){var sc=Math.max(W/bgimg.width,H/bgimg.height),iw=bgimg.width*sc,ih=bgimg.height*sc;g.drawImage(bgimg,-(iw-W)*.38,-(ih-H)*.5,iw,ih);}
@@ -323,6 +477,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
       g.fillStyle=rg;g.globalAlpha=.55+.45*flashes[i];g.beginPath();g.arc(cx,cy,rad*(1+.1*flashes[i]),0,7);g.fill();g.globalAlpha=1;
       g.fillStyle='#4a1a38';g.font='bold 16px sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText('DFJK'.charAt(i),cx,cy);
     }
+    if(cat&&cat.state!=='block')drawCat(now);
     // 音符
     for(i=0;i<notes.length;i++){
       var nn=notes[i];if(nn.done)continue;
@@ -333,6 +488,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
       g.fillStyle=ng;rr(x,y-rh/2,rw,rh,rh/2);g.fill();g.strokeStyle='#fff';g.lineWidth=2;g.stroke();
       g.fillStyle='rgba(74,26,56,.75)';g.font='bold '+Math.round(rh*.7)+'px sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText('♪',x+rw/2,y+1);
     }
+    if(cat&&cat.state==='block')drawCat(now);
     // 光のリングとかけら
     rings=rings.filter(function(r){return nw-r.t<420;});
     rings.forEach(function(r){var a=(nw-r.t)/420;g.globalAlpha=1-a;g.strokeStyle=r.big?'#fff':r.c;g.lineWidth=r.big?4:3;g.beginPath();g.arc(r.x,r.y,laneW*(.2+a*(r.big?.8:.55)),0,7);g.stroke();});
@@ -340,6 +496,12 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     parts=parts.filter(function(p){return p.l>0;});
     parts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.vy+=.14;p.l-=.028;g.globalAlpha=Math.max(0,p.l);g.fillStyle=p.c;g.beginPath();g.arc(p.x,p.y,p.r,0,7);g.fill();});
     g.globalAlpha=1;
+    hearts=hearts.filter(function(h){return nw-h.t<900;});
+    hearts.forEach(function(h){var a=(nw-h.t)/900;g.globalAlpha=1-a;g.fillStyle='#ff6f9c';g.textAlign='center';g.textBaseline='middle';g.font='bold 26px sans-serif';g.fillText('♥',h.x,h.y-a*70);});
+    g.globalAlpha=1;
+    if(msgO){var ma=nw-msgO.t;if(ma<2600){g.globalAlpha=ma>2100?1-(ma-2100)/500:1;g.textAlign='center';g.textBaseline='middle';g.font='bold 15px sans-serif';
+      var mt=t(msgO.k),mw=Math.min(W-24,g.measureText(mt).width+28);g.fillStyle='rgba(58,21,48,.82)';rr(W/2-mw/2,H*.17-16,mw,32,16);g.fill();
+      g.fillStyle='#fff';g.fillText(mt,W/2,H*.17+1);g.globalAlpha=1;}else msgO=null;}
     // 判定文字
     pops=pops.filter(function(p){return nw-p.t<450;});
     pops.forEach(function(p){
@@ -377,6 +539,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
   $('again').onclick=begin;
   $('tomenu').onclick=function(){show('menu');};
   $('quit').onclick=function(){stop();show('menu');};
+  $('fish').onclick=useFish;
   window.__mina_dbg={buildChart:buildChart};
 })();
 </script>
