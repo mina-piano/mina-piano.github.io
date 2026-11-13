@@ -44,6 +44,11 @@ section#app li{margin:4px 0}
 .rep-group li a{text-decoration:none}
 .rep-group li a:hover{text-decoration:underline}
 .rep-group li a::after{content:' ♪';opacity:.6;font-size:.85em}
+#setlist .sethead{margin:14px 0 6px;font-size:1rem;color:var(--accent2);border-bottom:1px dashed var(--line);padding-bottom:4px}
+#setlist .sethead:first-child{margin-top:0}
+.setl{margin:0;padding-left:1.8em}
+.setl li{margin:6px 0;font-size:1.05rem}
+.setl .seta{color:var(--sub);font-size:.9rem}
 #evlist{scroll-margin-top:80px}
 #evlist .x{display:block;margin:10px auto 0;border:2px solid var(--accent);background:#fff;color:var(--accent2);border-radius:999px;padding:6px 22px;font:inherit;font-weight:700;cursor:pointer}
 .calhint{margin:8px 2px 0;font-size:.8rem;color:var(--sub);text-align:center}
@@ -117,6 +122,7 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
   <a href="#intro" data-t="nIntro"></a>
   <a href="#calendar" data-t="nCal"></a>
   <a href="#events" data-t="nEvents"></a>
+  <a href="#setlist" data-t="nSet"></a>
   <a href="#repertoire" data-t="nRepertoire"></a>
   <a href="#links" data-t="nLinks"></a>
   <a href="#songs" data-t="nSongs"></a>
@@ -128,6 +134,7 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
   <section id="intro"><h2 data-t="nIntro"></h2><div id="intro-body"></div></section>
   <section id="calendar"><h2 data-t="nCal"></h2><div id="calendar-body"></div></section>
   <section id="events"><h2 data-t="hEvents"></h2><div id="events-body"></div></section>
+  <section id="setlist"><h2 data-t="nSet"></h2><div id="setlist-body"></div></section>
   <section id="repertoire"><h2 data-t="nRepertoire"></h2><div id="repertoire-body"></div></section>
   <section id="links"><h2 data-t="nLinks"></h2><div id="links-body" class="btns"></div></section>
   <section id="songs"><h2 data-t="nSongs"></h2><div id="songs-body"></div></section>
@@ -157,10 +164,10 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
 <script>
 (function(){
   var T={
-    ja:{title:'mina piano オフィシャルホームページ',sub:'17LIVEライバー ／ ピアノ',nIntro:'mina pianoについて',nRepertoire:'曲リスト',repSearch:'🔍 曲名やアーティスト名で検索',repOther:'その他',repNone:'見つかりませんでした',nLinks:'リンク',nEvents:'イベント',hEvents:'イベント情報',nSongs:'オリジナルソング',nPhotos:'写真',nGame:'リズムゲーム',gameDesc:'オリジナルソングに合わせて、流れてくる音符をタップ! 曲は自動で譜面になります。',gamePlay:'あそんでみる',nShop:'グッズ・楽曲販売',tapHint:'ボタンをタップしてね👇',
+    ja:{title:'mina piano オフィシャルホームページ',sub:'17LIVEライバー ／ ピアノ',nIntro:'mina pianoについて',nRepertoire:'曲リスト',nSet:'当日セトリ',setNote:'※ 当日の予定です。変更になることがあります。',repSearch:'🔍 曲名やアーティスト名で検索',repOther:'その他',repNone:'見つかりませんでした',nLinks:'リンク',nEvents:'イベント',hEvents:'イベント情報',nSongs:'オリジナルソング',nPhotos:'写真',nGame:'リズムゲーム',gameDesc:'オリジナルソングに合わせて、流れてくる音符をタップ! 曲は自動で譜面になります。',gamePlay:'あそんでみる',nShop:'グッズ・楽曲販売',tapHint:'ボタンをタップしてね👇',
         appBtn:'📱 スマホにアイコンを置く方法',nApp:'スマホにアイコンを置く',appLead:'ホーム画面にアイコンを置くと、アプリのように、1回タップするだけで開けます。',appIos:'iPhone(Safari)の場合',appIos1:'Safariでこのページを開きます。',appIos2:'下にある共有ボタン(四角から上向きの矢印)をタップします。',appIos3:'出てきた一覧を上にずらして「ホーム画面に追加」をタップします。',appIos4:'右上の「追加」をタップします。',appAnd:'Androidの場合(Chrome)',appAnd1:'Chromeでこのページを開きます。',appAnd2:'右上の「︙」(点が3つ)をタップします。',appAnd3:'「ホーム画面に追加」→「追加」をタップします。',
         foot:'このホームページには、個人の情報は掲載していません。',soon:'準備中です',nCal:'カレンダー',calHint:'日付をタップすると、その日のイベントが開きます。',close:'閉じる',noEv:'いまのところ、予定されているイベントはありません。',past:'過去のイベント(%n件)',more:'くわしくはこちら',dl:'この曲をダウンロード',dlPrep:'準備しています…',dlTap:'もういちどタップして保存',dlLine:'LINEの中では保存できません。右下の「…」→「Safariで開く」で開いてください。',dlFail:'保存できませんでした。曲を再生してから、共有ボタンの「ファイルに保存」をお試しください。',buy:'配信・購入はこちら',photo:'写真'},
-    en:{title:'mina piano Official Website',sub:'17LIVE Streamer / Pianist',nIntro:'About mina piano',nRepertoire:'Song List',repSearch:'🔍 Search by song or artist',repOther:'Other',repNone:'No matches found',nLinks:'Links',nEvents:'Events',hEvents:'Events',nSongs:'Original Songs',nPhotos:'Photos',nGame:'Rhythm Game',gameDesc:'Tap the notes in time with the original songs! Every song becomes a chart automatically.',gamePlay:'Play now',nShop:'Goods & Music Store',tapHint:'Tap a button below 👇',
+    en:{title:'mina piano Official Website',sub:'17LIVE Streamer / Pianist',nIntro:'About mina piano',nRepertoire:'Song List',nSet:'Setlist',setNote:'* Planned setlist. It may change on the day.',repSearch:'🔍 Search by song or artist',repOther:'Other',repNone:'No matches found',nLinks:'Links',nEvents:'Events',hEvents:'Events',nSongs:'Original Songs',nPhotos:'Photos',nGame:'Rhythm Game',gameDesc:'Tap the notes in time with the original songs! Every song becomes a chart automatically.',gamePlay:'Play now',nShop:'Goods & Music Store',tapHint:'Tap a button below 👇',
         appBtn:'📱 Add an icon to your phone',nApp:'Add to your home screen',appLead:'Put an icon on your home screen and open this site with one tap, like an app.',appIos:'iPhone (Safari)',appIos1:'Open this page in Safari.',appIos2:'Tap the share button (square with an arrow pointing up) at the bottom.',appIos3:'Scroll the menu up and tap "Add to Home Screen".',appIos4:'Tap "Add" in the top right.',appAnd:'Android (Chrome)',appAnd1:'Open this page in Chrome.',appAnd2:'Tap the "⋮" menu in the top right.',appAnd3:'Tap "Add to Home screen", then "Add".',
         foot:'This website does not publish any personal information.',soon:'Coming soon',nCal:'Calendar',calHint:'Tap a date to see that day\'s event.',close:'Close',noEv:'No events are scheduled right now.',past:'Past events (%n)',more:'More info',dl:'Download this song',dlPrep:'Preparing…',dlTap:'Tap again to save',dlLine:'Saving does not work inside LINE. Tap the "…" at the bottom right and choose "Open in Safari".',dlFail:'Could not save. Play the song, then try "Save to Files" from the share button.',buy:'Listen / buy this song',photo:'Photo'}
   };
@@ -179,7 +186,7 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
   function okPath(p){return /^[A-Za-z0-9_\-\/\.]+$/.test(p)&&p.indexOf('..')<0;}
   function load(name){return fetch(name+'?t='+Date.now()).then(function(r){return r.ok?r.text():'';}).catch(function(){return '';});}
   function rows(t){return t.split(/\r?\n/).map(function(s){return s.trim();}).filter(function(s){return s&&s.charAt(0)!=='#';}).map(function(s){return s.split('|').map(function(x){return x.trim();});});}
-  var D={links:'',events:'',songs:'',photos:'',intro:'',introEn:'',repertoire:''};
+  var D={links:'',events:'',songs:'',photos:'',intro:'',introEn:'',repertoire:'',setlist:''};
   var lb=document.getElementById('lb'),lbi=lb.querySelector('img');
   lb.addEventListener('click',function(){lb.style.display='none';});
   function zoom(box,sel){box.querySelectorAll(sel).forEach(function(im){im.addEventListener('click',function(){lbi.src=im.getAttribute('data-src');lb.style.display='flex';});});}
@@ -297,6 +304,23 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
     var text=pick(D.intro,D.introEn).trim();
     box.innerHTML=text?'<p class="text">'+esc(text)+'</p>':'<p class="empty">'+t('soon')+'</p>';
   }
+  function renderSetlist(){
+    var box=document.getElementById('setlist-body');
+    var lines=D.setlist.split(/\r?\n/).map(function(x){return x.trim();}).filter(function(x){return x&&x.charAt(0)!=='#'||/^##\s/.test(x);});
+    var html='',open=false,n=0,any=false;
+    lines.forEach(function(l){
+      var m=/^##\s*(.*)$/.exec(l);
+      if(m){if(open)html+='</ol>';html+='<h3 class="sethead">'+esc(m[1])+'</h3><ol class="setl">';open=true;n=0;return;}
+      if(l.charAt(0)==='#')return;
+      var p=l.split('|').map(function(x){return x.trim();});
+      if(!p[0])return;
+      if(!open){html+='<ol class="setl">';open=true;}
+      var name=pick(p[0],p[2]);
+      html+='<li>'+esc(name)+(p[1]?' <span class="seta">/ '+esc(p[1])+'</span>':'')+'</li>';any=true;
+    });
+    if(open)html+='</ol>';
+    box.innerHTML=any?html+'<p class="empty" style="font-size:.85rem;margin-top:10px">'+t('setNote')+'</p>':'<p class="empty">'+t('soon')+'</p>';
+  }
   function renderRepertoire(){
     var box=document.getElementById('repertoire-body');
     var r=rows(D.repertoire).filter(function(x){return x[0];});
@@ -352,14 +376,14 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
     document.title=t('title');
     document.querySelectorAll('[data-t]').forEach(function(el){el.textContent=t(el.getAttribute('data-t'));});
     document.querySelectorAll('#lang button').forEach(function(b){b.className=(b.getAttribute('data-l')===lang)?'on':'';});
-    renderIntro();renderRepertoire();renderLinks();renderEvents();renderSongs();renderPhotos();
+    renderIntro();renderRepertoire();renderSetlist();renderLinks();renderEvents();renderSongs();renderPhotos();
   }
   document.querySelectorAll('#lang button').forEach(function(b){
     b.addEventListener('click',function(){lang=b.getAttribute('data-l');try{localStorage.setItem('mina-lang',lang);}catch(e){}render();});
   });
   render();
-  Promise.all([load('links.txt'),load('events.txt'),load('songs.txt'),load('photos.txt'),load('intro.txt'),load('intro-en.txt'),load('songlist.txt')]).then(function(a){
-    D.links=a[0];D.events=a[1];D.songs=a[2];D.photos=a[3];D.intro=a[4];D.introEn=a[5];D.repertoire=a[6];render();
+  Promise.all([load('links.txt'),load('events.txt'),load('songs.txt'),load('photos.txt'),load('intro.txt'),load('intro-en.txt'),load('songlist.txt'),load('setlist.txt')]).then(function(a){
+    D.links=a[0];D.events=a[1];D.songs=a[2];D.photos=a[3];D.intro=a[4];D.introEn=a[5];D.repertoire=a[6];D.setlist=a[7];render();
   });
 })();
 </script>
