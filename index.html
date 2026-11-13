@@ -90,9 +90,9 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
 (function(){
   var T={
     ja:{title:'mina piano オフィシャルホームページ',sub:'17LIVEライバー ／ ピアノ',nLinks:'リンク',nEvents:'イベント',hEvents:'イベント情報',nSongs:'オリジナルソング',nPhotos:'写真',nGame:'リズムゲーム',gameDesc:'オリジナルソングに合わせて、流れてくる音符をタップ! 曲は自動で譜面になります。',gamePlay:'あそんでみる',nShop:'グッズ・楽曲販売',
-        foot:'このホームページには、個人の情報は掲載していません。',soon:'準備中です',noEv:'いまのところ、予定されているイベントはありません。',past:'過去のイベント(%n件)',more:'くわしくはこちら',dl:'この曲をダウンロード',buy:'配信・購入はこちら',photo:'写真'},
+        foot:'このホームページには、個人の情報は掲載していません。',soon:'準備中です',noEv:'いまのところ、予定されているイベントはありません。',past:'過去のイベント(%n件)',more:'くわしくはこちら',dl:'この曲をダウンロード',dlPrep:'準備しています…',dlTap:'もういちどタップして保存',dlLine:'LINEの中では保存できません。右下の「…」→「Safariで開く」で開いてください。',dlFail:'保存できませんでした。曲を再生してから、共有ボタンの「ファイルに保存」をお試しください。',buy:'配信・購入はこちら',photo:'写真'},
     en:{title:'mina piano Official Website',sub:'17LIVE Streamer / Pianist',nLinks:'Links',nEvents:'Events',hEvents:'Events',nSongs:'Original Songs',nPhotos:'Photos',nGame:'Rhythm Game',gameDesc:'Tap the notes in time with the original songs! Every song becomes a chart automatically.',gamePlay:'Play now',nShop:'Goods & Music Store',
-        foot:'This website does not publish any personal information.',soon:'Coming soon',noEv:'No events are scheduled right now.',past:'Past events (%n)',more:'More info',dl:'Download this song',buy:'Listen / buy this song',photo:'Photo'}
+        foot:'This website does not publish any personal information.',soon:'Coming soon',noEv:'No events are scheduled right now.',past:'Past events (%n)',more:'More info',dl:'Download this song',dlPrep:'Preparing…',dlTap:'Tap again to save',dlLine:'Saving does not work inside LINE. Tap the "…" at the bottom right and choose "Open in Safari".',dlFail:'Could not save. Play the song, then try "Save to Files" from the share button.',buy:'Listen / buy this song',photo:'Photo'}
   };
   var lang='ja';
   try{
@@ -160,6 +160,33 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
       if(r[3]&&okUrl(r[3]))h+='<div class="m"><a href="'+esc(r[3])+'" target="_blank" rel="noopener">'+t('buy')+'</a></div>';
       return h+'</div>';
     }).join('');
+    attachDl(box);
+  }
+  var IOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  function attachDl(box){
+    if(!IOS)return;
+    box.querySelectorAll('a.dl').forEach(function(a){
+      var ready=null,busy=false,label=a.textContent,file=a.getAttribute('href'),name=(a.getAttribute('download')||'song.mp3');
+      a.addEventListener('click',function(e){
+        e.preventDefault();
+        if(/Line\//i.test(navigator.userAgent)){a.textContent=t('dlLine');return;}
+        if(ready){
+          var f=ready;
+          navigator.share({files:[f],title:name}).then(function(){ready=null;a.textContent=label;}).catch(function(err){
+            ready=null;a.textContent=label;
+            if(!err||err.name!=='AbortError'){a.textContent=t('dlFail');window.open(file,'_blank');}
+          });
+          return;
+        }
+        if(busy)return;busy=true;a.textContent=t('dlPrep');
+        fetch(file).then(function(r){if(!r.ok)throw 0;return r.blob();}).then(function(b){
+          var f=new File([b],name,{type:'audio/mpeg'});
+          busy=false;
+          if(navigator.canShare&&navigator.canShare({files:[f]})){ready=f;a.textContent=t('dlTap');}
+          else{a.textContent=label;window.open(file,'_blank');}
+        }).catch(function(){busy=false;a.textContent=t('dlFail');window.open(file,'_blank');});
+      });
+    });
   }
   function renderPhotos(){
     var box=document.getElementById('photos-body');
