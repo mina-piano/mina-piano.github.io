@@ -26,7 +26,14 @@ header.hero p{margin:6px 0 0;font-size:1.05rem;text-shadow:0 1px 8px rgba(0,0,0,
 nav{position:sticky;top:0;z-index:5;background:rgba(255,247,250,.95);border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:center;gap:8px 10px;padding:10px}
 nav a{text-decoration:none;color:#fff;background:var(--accent);font-weight:700;padding:7px 16px;font-size:.9rem;border-radius:999px}
 nav a:hover{background:var(--accent2)}
+nav a.active{outline:3px solid var(--accent2);box-shadow:0 2px 0 var(--accent2)}
 .tapnote{text-align:center;color:var(--accent2);font-weight:700;font-size:.9rem;margin:10px 0 0}
+.app-btn{display:block;width:max-content;max-width:92%;margin:12px auto 0;background:#fff;color:var(--accent2);border:2px solid var(--accent);border-radius:999px;padding:9px 20px;font-size:.95rem;font-weight:700;text-decoration:none;text-align:center}
+.app-btn:hover{background:var(--bg)}
+.tab-off{display:none!important}
+#intro .text{white-space:pre-wrap;margin:0}
+section#app ol{margin:6px 0 14px;padding-left:1.4em}
+section#app li{margin:4px 0}
 main{max-width:860px;margin:0 auto;padding:8px 16px 40px}
 section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin:20px 0;box-shadow:0 2px 8px rgba(224,112,159,.08)}
 section h2{margin:0 0 12px;font-size:1.3rem;color:var(--accent2);border-left:6px solid var(--accent);padding-left:10px}
@@ -77,7 +84,9 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
   </div>
 </header>
 <p class="tapnote" data-t="tapHint"></p>
+<a class="app-btn" href="#app" data-t="appBtn"></a>
 <nav>
+  <a href="#intro" data-t="nIntro"></a>
   <a href="#links" data-t="nLinks"></a>
   <a href="#events" data-t="nEvents"></a>
   <a href="#songs" data-t="nSongs"></a>
@@ -86,21 +95,41 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
   <a href="#shop" data-t="nShop"></a>
 </nav>
 <main>
+  <section id="intro"><h2 data-t="nIntro"></h2><div id="intro-body"></div></section>
   <section id="links"><h2 data-t="nLinks"></h2><div id="links-body" class="btns"></div></section>
   <section id="events"><h2 data-t="hEvents"></h2><div id="events-body"></div></section>
   <section id="songs"><h2 data-t="nSongs"></h2><div id="songs-body"></div></section>
   <section id="game"><h2 data-t="nGame"></h2><p data-t="gameDesc" style="margin:0 0 12px"></p><a class="btn" href="game.html" id="gamelink" data-t="gamePlay"></a></section>
   <section id="photos"><h2 data-t="nPhotos"></h2><div id="photos-body"></div></section>
   <section id="shop"><h2 data-t="nShop"></h2><div id="shop-body" class="btns"></div></section>
+  <section id="app">
+    <h2 data-t="nApp"></h2>
+    <p data-t="appLead"></p>
+    <div class="subh" data-t="appIos"></div>
+    <ol>
+      <li data-t="appIos1"></li>
+      <li data-t="appIos2"></li>
+      <li data-t="appIos3"></li>
+      <li data-t="appIos4"></li>
+    </ol>
+    <div class="subh" data-t="appAnd"></div>
+    <ol>
+      <li data-t="appAnd1"></li>
+      <li data-t="appAnd2"></li>
+      <li data-t="appAnd3"></li>
+    </ol>
+  </section>
 </main>
 <div id="lb"><img alt=""></div>
 <footer>© mina piano<br><span data-t="foot"></span></footer>
 <script>
 (function(){
   var T={
-    ja:{title:'mina piano オフィシャルホームページ',sub:'17LIVEライバー ／ ピアノ',nLinks:'リンク',nEvents:'イベント',hEvents:'イベント情報',nSongs:'オリジナルソング',nPhotos:'写真',nGame:'リズムゲーム',gameDesc:'オリジナルソングに合わせて、流れてくる音符をタップ! 曲は自動で譜面になります。',gamePlay:'あそんでみる',nShop:'グッズ・楽曲販売',tapHint:'ボタンをタップしてね👇',
+    ja:{title:'mina piano オフィシャルホームページ',sub:'17LIVEライバー ／ ピアノ',nIntro:'mina pianoについて',nLinks:'リンク',nEvents:'イベント',hEvents:'イベント情報',nSongs:'オリジナルソング',nPhotos:'写真',nGame:'リズムゲーム',gameDesc:'オリジナルソングに合わせて、流れてくる音符をタップ! 曲は自動で譜面になります。',gamePlay:'あそんでみる',nShop:'グッズ・楽曲販売',tapHint:'ボタンをタップしてね👇',
+        appBtn:'📱 スマホにアイコンを置く方法',nApp:'スマホにアイコンを置く',appLead:'ホーム画面にアイコンを置くと、アプリのように、1回タップするだけで開けます。',appIos:'iPhone(Safari)の場合',appIos1:'Safariでこのページを開きます。',appIos2:'下にある共有ボタン(四角から上向きの矢印)をタップします。',appIos3:'出てきた一覧を上にずらして「ホーム画面に追加」をタップします。',appIos4:'右上の「追加」をタップします。',appAnd:'Androidの場合(Chrome)',appAnd1:'Chromeでこのページを開きます。',appAnd2:'右上の「︙」(点が3つ)をタップします。',appAnd3:'「ホーム画面に追加」→「追加」をタップします。',
         foot:'このホームページには、個人の情報は掲載していません。',soon:'準備中です',noEv:'いまのところ、予定されているイベントはありません。',past:'過去のイベント(%n件)',more:'くわしくはこちら',dl:'この曲をダウンロード',dlPrep:'準備しています…',dlTap:'もういちどタップして保存',dlLine:'LINEの中では保存できません。右下の「…」→「Safariで開く」で開いてください。',dlFail:'保存できませんでした。曲を再生してから、共有ボタンの「ファイルに保存」をお試しください。',buy:'配信・購入はこちら',photo:'写真'},
-    en:{title:'mina piano Official Website',sub:'17LIVE Streamer / Pianist',nLinks:'Links',nEvents:'Events',hEvents:'Events',nSongs:'Original Songs',nPhotos:'Photos',nGame:'Rhythm Game',gameDesc:'Tap the notes in time with the original songs! Every song becomes a chart automatically.',gamePlay:'Play now',nShop:'Goods & Music Store',tapHint:'Tap a button below 👇',
+    en:{title:'mina piano Official Website',sub:'17LIVE Streamer / Pianist',nIntro:'About mina piano',nLinks:'Links',nEvents:'Events',hEvents:'Events',nSongs:'Original Songs',nPhotos:'Photos',nGame:'Rhythm Game',gameDesc:'Tap the notes in time with the original songs! Every song becomes a chart automatically.',gamePlay:'Play now',nShop:'Goods & Music Store',tapHint:'Tap a button below 👇',
+        appBtn:'📱 Add an icon to your phone',nApp:'Add to your home screen',appLead:'Put an icon on your home screen and open this site with one tap, like an app.',appIos:'iPhone (Safari)',appIos1:'Open this page in Safari.',appIos2:'Tap the share button (square with an arrow pointing up) at the bottom.',appIos3:'Scroll the menu up and tap "Add to Home Screen".',appIos4:'Tap "Add" in the top right.',appAnd:'Android (Chrome)',appAnd1:'Open this page in Chrome.',appAnd2:'Tap the "⋮" menu in the top right.',appAnd3:'Tap "Add to Home screen", then "Add".',
         foot:'This website does not publish any personal information.',soon:'Coming soon',noEv:'No events are scheduled right now.',past:'Past events (%n)',more:'More info',dl:'Download this song',dlPrep:'Preparing…',dlTap:'Tap again to save',dlLine:'Saving does not work inside LINE. Tap the "…" at the bottom right and choose "Open in Safari".',dlFail:'Could not save. Play the song, then try "Save to Files" from the share button.',buy:'Listen / buy this song',photo:'Photo'}
   };
   var lang='ja';
@@ -118,7 +147,7 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
   function okPath(p){return /^[A-Za-z0-9_\-\/\.]+$/.test(p)&&p.indexOf('..')<0;}
   function load(name){return fetch(name+'?t='+Date.now()).then(function(r){return r.ok?r.text():'';}).catch(function(){return '';});}
   function rows(t){return t.split(/\r?\n/).map(function(s){return s.trim();}).filter(function(s){return s&&s.charAt(0)!=='#';}).map(function(s){return s.split('|').map(function(x){return x.trim();});});}
-  var D={links:'',events:'',songs:'',photos:''};
+  var D={links:'',events:'',songs:'',photos:'',intro:'',introEn:''};
   var lb=document.getElementById('lb'),lbi=lb.querySelector('img');
   lb.addEventListener('click',function(){lb.style.display='none';});
   function zoom(box,sel){box.querySelectorAll(sel).forEach(function(im){im.addEventListener('click',function(){lbi.src=im.getAttribute('data-src');lb.style.display='flex';});});}
@@ -197,6 +226,11 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
       });
     });
   }
+  function renderIntro(){
+    var box=document.getElementById('intro-body');
+    var text=pick(D.intro,D.introEn).trim();
+    box.innerHTML=text?'<p class="text">'+esc(text)+'</p>':'<p class="empty">'+t('soon')+'</p>';
+  }
   function renderPhotos(){
     var box=document.getElementById('photos-body');
     var p=rows(D.photos).filter(function(r){return r[0]&&okPath(r[0]);});
@@ -212,15 +246,40 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
     document.title=t('title');
     document.querySelectorAll('[data-t]').forEach(function(el){el.textContent=t(el.getAttribute('data-t'));});
     document.querySelectorAll('#lang button').forEach(function(b){b.className=(b.getAttribute('data-l')===lang)?'on':'';});
-    renderLinks();renderEvents();renderSongs();renderPhotos();
+    renderIntro();renderLinks();renderEvents();renderSongs();renderPhotos();
   }
   document.querySelectorAll('#lang button').forEach(function(b){
     b.addEventListener('click',function(){lang=b.getAttribute('data-l');try{localStorage.setItem('mina-lang',lang);}catch(e){}render();});
   });
   render();
-  Promise.all([load('links.txt'),load('events.txt'),load('songs.txt'),load('photos.txt')]).then(function(a){
-    D.links=a[0];D.events=a[1];D.songs=a[2];D.photos=a[3];render();
+  Promise.all([load('links.txt'),load('events.txt'),load('songs.txt'),load('photos.txt'),load('intro.txt'),load('intro-en.txt')]).then(function(a){
+    D.links=a[0];D.events=a[1];D.songs=a[2];D.photos=a[3];D.intro=a[4];D.introEn=a[5];render();
   });
+})();
+</script>
+<script>
+/* 上のボタンを押すと、そのコーナーだけが開く */
+(function(){
+  var secs=Array.prototype.slice.call(document.querySelectorAll('main > section'));
+  var ids=secs.map(function(x){return x.id;});
+  var navs=Array.prototype.slice.call(document.querySelectorAll('nav a'));
+  function showTab(id,scroll){
+    if(ids.indexOf(id)<0)id=ids[0];
+    secs.forEach(function(x){x.classList.toggle('tab-off',x.id!==id);});
+    navs.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+id);});
+    if(scroll){var n=document.querySelector('nav');window.scrollTo(0,n?n.offsetTop:0);}
+  }
+  document.addEventListener('click',function(e){
+    var a=e.target.closest?e.target.closest('a[href^="#"]'):null;
+    if(!a)return;
+    var id=a.getAttribute('href').slice(1);
+    if(ids.indexOf(id)<0)return;
+    e.preventDefault();
+    try{history.pushState(null,'','#'+id);}catch(x){}
+    showTab(id,true);
+  });
+  window.addEventListener('popstate',function(){showTab(location.hash.slice(1),false);});
+  showTab(location.hash.slice(1),false);
 })();
 </script>
 </body>
