@@ -2,4 +2,5 @@
 # 日付は 2026-12-01 のように書きます。時間・メモ・リンク・画像・英語は、なければ空でかまいません。
 # 英語を空にすると、英語版でも日本語のまま表示されます。
 # 新しいイベントは、下に1行ずつ足します。
+2026-11-15|OPEN 12:00 / START 12:30|Boosting Fortune! ヒカル's 3rd ワンマンライブ in 赤坂|特別ゲスト:みな piano / ピアノ弾き とよぴさん ／ 会場:クローフィッシュ赤坂(東京都港区赤坂3-11-7 ソシアル赤坂地下) ／ 料金:7,500円(食事付き・飲み放題)|https://livepocket.jp/e/jvpx1|boosting-fortune.jpg|Boosting Fortune! Hikaru's 3rd One-Man Live in Akasaka|Special guests: Mina piano / pianist Toyopi (とよぴ) / Venue: Crawfish Akasaka (Social Akasaka B1F, 3-11-7 Akasaka, Minato-ku, Tokyo) / Ticket: 7,500 yen (includes food and all-you-can-drink)
 2026-12-13|OPEN 12:30 / START 13:00|灯音 -AKARINE- 〜音がつなぐ時間〜|出演:みな piano / オコナー / パーマ tsubasa ／ 会場:TONE8.0 + BASEMENT GALLERY(大阪市中央区南新町1-1-1 EXA南新町ビル1F) ／ チケット:3,000円(1ドリンク代込み)||akarine-flyer.jpg|AKARINE (灯音) 〜Time Connected by Sound〜|Performers: Mina piano / Okonaa (オコナー) / Paama tsubasa (パーマ tsubasa) / Venue: TONE8.0 + BASEMENT GALLERY (EXA Minamishinmachi Bldg. 1F, 1-1-1 Minamishinmachi, Chuo-ku, Osaka) / Ticket: 3,000 yen (includes 1 drink)
