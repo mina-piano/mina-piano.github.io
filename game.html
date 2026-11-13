@@ -49,6 +49,8 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     <div class="list" id="songs"></div>
     <h2 data-t="hDiff"></h2>
     <div class="row" id="diffs"></div>
+    <h2 data-t="hLen"></h2>
+    <div class="row" id="lens"></div>
     <h2 data-t="hOff"></h2>
     <div class="off"><button type="button" id="offm">−</button><b id="offv">0 ms</b><button type="button" id="offp">+</button></div>
     <p class="hint" data-t="offHint"></p>
@@ -57,7 +59,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     <p class="hint" data-t="catHow"></p>
     <p class="hint" data-t="mute"></p>
     <a class="home" href="./" data-t="home"></a>
-    <p class="hint" style="text-align:center;opacity:.6" id="ver">ver. 11/13-16:40 (mina cheer)</p>
+    <p class="hint" style="text-align:center;opacity:.6" id="ver">ver. 11/13-16:55 (trial30)</p>
   </div>
   <div class="screen" id="loadscr"><div id="lt" style="display:flex"></div></div>
   <div class="screen" id="play" style="padding:0">
@@ -81,7 +83,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 <script>
 (function(){
   var T={
-    ja:{title:'リズムゲーム',sub:'曲に合わせて、流れてくる音符をタップ!',hSong:'曲をえらぶ',hDiff:'むずかしさ',hOff:'音のずれ調整',
+    ja:{title:'リズムゲーム',sub:'曲に合わせて、流れてくる音符をタップ!',hSong:'曲をえらぶ',hDiff:'むずかしさ',hLen:'あそぶ長さ',lenTrial:'おためし(30秒)',lenFull:'ぜんぶ',trialTag:'おためし30秒',hOff:'音のずれ調整',
         offHint:'ふつうは 0 のままでOK。Bluetoothイヤホンなどで音がおくれて聞こえるときは、+ にしてください。',
         start:'スタート',how:'あそびかた:音符が下の線に重なったら、そのレーンをタップします。パソコンは D F J K キーでも遊べます。',
         mute:'iPhoneは、マナーモード(横のスイッチ)を解除すると、音が出ます。',home:'← ホームページへもどる',
@@ -89,7 +91,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
         building:'譜面を作っています…',loading:'曲を読みこんでいます…',err:'読みこめませんでした。もういちどお試しください。',
         none:'曲が準備中です',perfect:'PERFECT',good:'GOOD',miss:'MISS',combo:'コンボ',score:'スコア',
         catHow:'ゲーム中、飼い猫のMiaちゃんが邪魔しにくることがあります。のぞいているうちに、音符のないタイミングでそのレーンをタップしてなでなでするか、🐟ボタンでごはんを出すと、上へ連れていけます。ほうっておくと、レーンに座りこんで、タップできなくなります。',catPeek:'Miaちゃんがのぞいてる! タップでなでなで',catBlock:'Miaが邪魔してる! なでなで連打(🐟でもOK)',catHappy:'なでなで成功! ごろごろ♪',catBonus:'なでなでボーナス!',catLure:'ごはんで連れていったよ',rPets:'Miaをなでた回数',ttlS:'🎉 やったね! 大成功!',ttlA:'🎉 やったね! すごーい!',ttlB:'🎉 やったね! クリア!',ttlC:['おつかれさま! あと少しで合格!','おしい! もう少し練習してね','あと少し! もういちどやってみよう','いい感じ! 練習すればもっとよくなるよ'],ttlD:['まずは練習から! だいじょうぶ!','ドンマイ! 何度でも練習してね','ここからが本番! 練習しよう','Miaも応援してるよ! 練習してね'],hintEasy:'ヒント:「かんたん」から練習すると、遊びやすいよ。',cheerS:['やったね!','すごーい!','ありがとう!','おめでとう!','最高!','天才!'],cheerA:['やったね!','すごーい!','おめでとう!','いいね!','ブラボー!'],cheerB:['やったね!','いいね!','がんばった!','おつかれさま!'],cheerC:['おしい!','あと少し!','もういちど!','つぎは いけるよ!','れんしゅうだ!'],cheerD:['だいじょうぶ!','ファイト!','いっしょにれんしゅうしよう!','がんばれー!','Miaもおうえん!','なんどでも!'],rPerfect:'パーフェクト',rGood:'グッド',rMiss:'ミス',rCombo:'最大コンボ',best:'ハイスコア',notes:'音符'},
-    en:{title:'Rhythm Game',sub:'Tap the notes in time with the music!',hSong:'Choose a song',hDiff:'Difficulty',hOff:'Audio offset',
+    en:{title:'Rhythm Game',sub:'Tap the notes in time with the music!',hSong:'Choose a song',hDiff:'Difficulty',hLen:'Length',lenTrial:'Trial (30 sec)',lenFull:'Full song',trialTag:'30-sec trial',hOff:'Audio offset',
         offHint:'Keep it at 0 normally. If the sound arrives late (e.g. Bluetooth earphones), raise it with +.',
         start:'Start',how:'How to play: tap the lane when a note reaches the line at the bottom. On a computer you can also use the D F J K keys.',
         mute:'On iPhone, turn off silent mode (the side switch) to hear the sound.',home:'← Back to the homepage',
@@ -113,7 +115,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
   function show(id){['menu','loadscr','play','result'].forEach(function(s){$(s).classList.toggle('on',s===id);});}
   function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
 
-  var songs=[],sel=0,diff='normal',offMs=parseInt(store('mina-off')||'0',10)||0;
+  var songs=[],sel=0,diff='normal',lenMode=(store('mina-len')==='full'?'full':'trial'),trialNow=false,offMs=parseInt(store('mina-off')||'0',10)||0;
   var DIFF={easy:{mult:1.9,gap:.55,fall:1.9},normal:{mult:1.45,gap:.32,fall:1.55},hard:{mult:1.15,gap:.19,fall:1.25}};
 
   function applyText(){
@@ -128,6 +130,8 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     box.querySelectorAll('button').forEach(function(b){b.onclick=function(){sel=+b.getAttribute('data-i');renderMenu();};});
     $('diffs').innerHTML=['easy','normal','hard'].map(function(d){return '<button type="button" data-d="'+d+'" class="'+(d===diff?'sel':'')+'">'+t(d)+'</button>';}).join('');
     $('diffs').querySelectorAll('button').forEach(function(b){b.onclick=function(){diff=b.getAttribute('data-d');renderMenu();};});
+    $('lens').innerHTML=['trial','full'].map(function(m){return '<button type="button" data-m="'+m+'" class="'+(m===lenMode?'sel':'')+'">'+t(m==='trial'?'lenTrial':'lenFull')+'</button>';}).join('');
+    $('lens').querySelectorAll('button').forEach(function(b){b.onclick=function(){lenMode=b.getAttribute('data-m');store('mina-len',lenMode);renderMenu();};});
     $('offv').textContent=(offMs>0?'+':'')+offMs+' ms';
   }
   $('offm').onclick=function(){offMs=Math.max(-300,offMs-20);store('mina-off',String(offMs));renderMenu();};
@@ -268,11 +272,23 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     .catch(function(e){lt.textContent=t('err');setTimeout(function(){show('menu');},1800);});
   }
   function play(buf,chart){
-    notes=chart;dur=buf.duration;st={score:0,earned:0,combo:0,maxc:0,perf:0,good:0,miss:0};pops=[];flashes=[0,0,0,0];parts=[];rings=[];pulse=0;comboT=0;
-    cat=null;hearts=[];msgO=null;petTotal=0;lastLane=-1;fishLeft=CAT[diff].fish;nextCat=CAT[diff].first+Math.random()*6;fishBtn();
+    var trial=(lenMode==='trial')&&buf.duration>34,off=0;
+    if(trial){
+      var bestC=-1,sx,cnt,k;
+      for(sx=0;sx<=buf.duration-30;sx+=1){cnt=0;for(k=0;k<chart.length;k++){if(chart[k].t>=sx+1.4&&chart[k].t<sx+29.3)cnt++;}if(cnt>bestC){bestC=cnt;off=sx;}}
+      chart=chart.filter(function(n){return n.t>=off+1.4&&n.t<off+29.3;}).map(function(n){return {t:n.t-off,lane:n.lane,done:false};});
+    }
+    trialNow=trial;
+    notes=chart;dur=trial?30:buf.duration;st={score:0,earned:0,combo:0,maxc:0,perf:0,good:0,miss:0};pops=[];flashes=[0,0,0,0];parts=[];rings=[];pulse=0;comboT=0;
+    cat=null;hearts=[];msgO=null;petTotal=0;lastLane=-1;fishLeft=CAT[diff].fish;nextCat=(trialNow?8+Math.random()*5:CAT[diff].first+Math.random()*6);fishBtn();
     show('play');resize();
-    src=ctx.createBufferSource();src.buffer=buf;src.connect(ctx.destination);
-    startAt=ctx.currentTime+2.2;src.start(startAt);running=true;
+    src=ctx.createBufferSource();src.buffer=buf;
+    var gn=ctx.createGain();src.connect(gn);gn.connect(ctx.destination);
+    startAt=ctx.currentTime+2.2;
+    if(trial){
+      gn.gain.setValueAtTime(0,startAt);gn.gain.linearRampToValueAtTime(1,startAt+.8);gn.gain.setValueAtTime(1,startAt+27.6);gn.gain.linearRampToValueAtTime(0,startAt+30);
+      src.start(startAt,off,30);
+    }else{src.start(startAt);}running=true;
     cancelAnimationFrame(raf);raf=requestAnimationFrame(loop);
     window.__mina={notes:notes,gt:gt,tap:tap,st:st,spawnCat:spawnCat,useFish:useFish,petCat:petCat,getCat:function(){return cat;},getPets:function(){return petTotal;}};
   }
@@ -285,9 +301,9 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     stop();
     var total=notes.length||1,acc=Math.min(1,st.earned/total),score=Math.round(acc*1000000);
     var rank=acc>=.95?'S':acc>=.85?'A':acc>=.7?'B':acc>=.5?'C':'D';
-    var key='mina-best-'+cur.file+'-'+diff,bs=parseInt(store(key)||'0',10)||0;
+    var key='mina-best-'+cur.file+'-'+diff+(trialNow?'-t':''),bs=parseInt(store(key)||'0',10)||0;
     if(score>bs){bs=score;store(key,String(bs));}
-    $('rsong').textContent=pick(cur.ja,cur.en)+' / '+t(diff);
+    $('rsong').textContent=pick(cur.ja,cur.en)+' / '+t(diff)+(trialNow?' / '+t('trialTag'):'');
     $('rrank').textContent=rank;
     $('rscore').textContent=score.toLocaleString();
     $('rstat').innerHTML=t('rPerfect')+' '+st.perf+'　'+t('rGood')+' '+st.good+'　'+t('rMiss')+' '+st.miss+'<br>'+t('rCombo')+' '+st.maxc+' / '+notes.length+' '+t('notes')+'<br>'+t('rPets')+' '+petTotal+'<br>'+t('best')+' '+bs.toLocaleString();
