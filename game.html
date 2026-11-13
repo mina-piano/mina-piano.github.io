@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>mina piano リズムゲーム</title>
+<meta property="og:title" content="mina piano リズムゲーム / Rhythm Game">
+<meta property="og:image" content="https://mina-piano.github.io/header.jpg">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:#1d0b17;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;overflow:hidden;overscroll-behavior:none}
+body{display:flex;justify-content:center}
+.stage{position:relative;width:min(100vw,520px);height:100vh;height:100dvh;background:linear-gradient(180deg,#3a1530,#1d0b17);overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:none}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;padding:18px 16px;overflow-y:auto;touch-action:pan-y}
+.screen.on{display:flex}
+h1{margin:6px 0 4px;font-size:1.5rem;color:#ffb3d1;text-align:center}
+.sub{text-align:center;color:#d9a9bf;font-size:.9rem;margin:0 0 14px}
+h2{font-size:1rem;color:#ffb3d1;margin:16px 0 8px}
+.list button,.row button,.big{font:inherit;color:#fff;border:2px solid #e0709f;background:rgba(224,112,159,.15);border-radius:14px;padding:12px 14px;margin:0 0 8px;width:100%;text-align:left;cursor:pointer}
+.list button.sel,.row button.sel{background:#e0709f;color:#fff;font-weight:700}
+.row{display:flex;gap:8px}
+.row button{text-align:center;padding:12px 6px}
+.big{background:#e0709f;font-weight:700;text-align:center;font-size:1.15rem;padding:16px;margin-top:14px}
+.big.alt{background:transparent}
+.hint{color:#d9a9bf;font-size:.85rem;line-height:1.6;margin:8px 0}
+.off{display:flex;align-items:center;gap:10px;color:#d9a9bf;font-size:.9rem}
+.off button{font:inherit;color:#fff;border:2px solid #e0709f;background:rgba(224,112,159,.15);border-radius:14px;width:48px;padding:8px;margin:0;text-align:center;font-weight:700;cursor:pointer}
+.off b{min-width:70px;text-align:center;color:#fff}
+a.home{color:#ffb3d1;text-align:center;display:block;margin-top:18px}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#quit{position:absolute;top:10px;left:10px;z-index:3;border:2px solid #ffffff88;background:#00000055;color:#fff;border-radius:999px;padding:6px 12px;font-size:.85rem}
+#lt{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;font-size:1.1rem;padding:20px}
+.res{text-align:center}
+.res .rank{font-size:5rem;font-weight:800;color:#ffb3d1;line-height:1.1}
+.res .sc{font-size:2.4rem;font-weight:700}
+.res .st{color:#d9a9bf;line-height:1.9;margin:8px 0}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="screen on" id="menu">
+    <h1 data-t="title"></h1>
+    <p class="sub" data-t="sub"></p>
+    <h2 data-t="hSong"></h2>
+    <div class="list" id="songs"></div>
+    <h2 data-t="hDiff"></h2>
+    <div class="row" id="diffs"></div>
+    <h2 data-t="hOff"></h2>
+    <div class="off"><button type="button" id="offm">−</button><b id="offv">0 ms</b><button type="button" id="offp">+</button></div>
+    <p class="hint" data-t="offHint"></p>
+    <button class="big" id="start" type="button" data-t="start"></button>
+    <p class="hint" data-t="how"></p>
+    <p class="hint" data-t="mute"></p>
+    <a class="home" href="./" data-t="home"></a>
+  </div>
+  <div class="screen" id="loadscr"><div id="lt" style="display:flex"></div></div>
+  <div class="screen" id="play" style="padding:0">
+    <canvas id="cv"></canvas>
+    <button id="quit" type="button" data-t="quit"></button>
+  </div>
+  <div class="screen" id="result">
+    <div class="res" style="margin:auto 0">
+      <div class="st" id="rsong"></div>
+      <div class="rank" id="rrank"></div>
+      <div class="sc" id="rscore"></div>
+      <div class="st" id="rstat"></div>
+      <button class="big" id="again" type="button" data-t="again"></button>
+      <button class="big alt" id="tomenu" type="button" data-t="toMenu"></button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var T={
+    ja:{title:'リズムゲーム',sub:'曲に合わせて、流れてくる音符をタップ!',hSong:'曲をえらぶ',hDiff:'むずかしさ',hOff:'音のずれ調整',
+        offHint:'ふつうは 0 のままでOK。Bluetoothイヤホンなどで音がおくれて聞こえるときは、+ にしてください。',
+        start:'スタート',how:'あそびかた:音符が下の線に重なったら、そのレーンをタップします。パソコンは D F J K キーでも遊べます。',
+        mute:'iPhoneは、マナーモード(横のスイッチ)を解除すると、音が出ます。',home:'← ホームページへもどる',
+        quit:'やめる',again:'もういちど',toMenu:'曲をえらびなおす',easy:'かんたん',normal:'ふつう',hard:'むずかしい',
+        building:'譜面を作っています…',loading:'曲を読みこんでいます…',err:'読みこめませんでした。もういちどお試しください。',
+        none:'曲が準備中です',perfect:'PERFECT',good:'GOOD',miss:'MISS',combo:'コンボ',score:'スコア',
+        rPerfect:'パーフェクト',rGood:'グッド',rMiss:'ミス',rCombo:'最大コンボ',best:'ハイスコア',notes:'音符'},
+    en:{title:'Rhythm Game',sub:'Tap the notes in time with the music!',hSong:'Choose a song',hDiff:'Difficulty',hOff:'Audio offset',
+        offHint:'Keep it at 0 normally. If the sound arrives late (e.g. Bluetooth earphones), raise it with +.',
+        start:'Start',how:'How to play: tap the lane when a note reaches the line at the bottom. On a computer you can also use the D F J K keys.',
+        mute:'On iPhone, turn off silent mode (the side switch) to hear the sound.',home:'← Back to the homepage',
+        quit:'Quit',again:'Play again',toMenu:'Choose another song',easy:'Easy',normal:'Normal',hard:'Hard',
+        building:'Creating the chart…',loading:'Loading the song…',err:'Could not load the song. Please try again.',
+        none:'Songs are coming soon',perfect:'PERFECT',good:'GOOD',miss:'MISS',combo:'Combo',score:'Score',
+        rPerfect:'Perfect',rGood:'Good',rMiss:'Miss',rCombo:'Max combo',best:'Best',notes:'notes'}
+  };
+  var lang='ja';
+  try{
+    var q=/[?&]lang=(en|ja)/.exec(location.search),sv=null;
+    try{sv=localStorage.getItem('mina-lang');}catch(e){}
+    if(q)lang=q[1];else if(sv==='en'||sv==='ja')lang=sv;
+    else if(navigator.language&&navigator.language.toLowerCase().indexOf('ja')!==0)lang='en';
+  }catch(e){}
+  function t(k){return T[lang][k];}
+  function pick(ja,en){return (lang==='en'&&en)?en:ja;}
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function okPath(p){return /^[A-Za-z0-9_\-\/\.]+$/.test(p)&&p.indexOf('..')<0;}
+  function $(id){return document.getElementById(id);}
+  function show(id){['menu','loadscr','play','result'].forEach(function(s){$(s).classList.toggle('on',s===id);});}
+  function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
+
+  var songs=[],sel=0,diff='normal',offMs=parseInt(store('mina-off')||'0',10)||0;
+  var DIFF={easy:{mult:1.9,gap:.55,fall:1.9},normal:{mult:1.45,gap:.32,fall:1.55},hard:{mult:1.15,gap:.19,fall:1.25}};
+
+  function applyText(){
+    document.documentElement.lang=lang;document.title=lang==='en'?'mina piano Rhythm Game':'mina piano リズムゲーム';
+    document.querySelectorAll('[data-t]').forEach(function(el){el.textContent=t(el.getAttribute('data-t'));});
+    renderMenu();
+  }
+  function renderMenu(){
+    var box=$('songs');
+    if(!songs.length){box.innerHTML='<p class="hint">'+t('none')+'</p>';}
+    else box.innerHTML=songs.map(function(s,i){return '<button type="button" data-i="'+i+'" class="'+(i===sel?'sel':'')+'">'+esc(pick(s.ja,s.en))+'</button>';}).join('');
+    box.querySelectorAll('button').forEach(function(b){b.onclick=function(){sel=+b.getAttribute('data-i');renderMenu();};});
+    $('diffs').innerHTML=['easy','normal','hard'].map(function(d){return '<button type="button" data-d="'+d+'" class="'+(d===diff?'sel':'')+'">'+t(d)+'</button>';}).join('');
+    $('diffs').querySelectorAll('button').forEach(function(b){b.onclick=function(){diff=b.getAttribute('data-d');renderMenu();};});
+    $('offv').textContent=(offMs>0?'+':'')+offMs+' ms';
+  }
+  $('offm').onclick=function(){offMs=Math.max(-300,offMs-20);store('mina-off',String(offMs));renderMenu();};
+  $('offp').onclick=function(){offMs=Math.min(300,offMs+20);store('mina-off',String(offMs));renderMenu();};
+
+  fetch('songs.txt?t='+Date.now()).then(function(r){return r.ok?r.text():'';}).catch(function(){return '';}).then(function(txt){
+    songs=txt.split(/\r?\n/).map(function(s){return s.trim();}).filter(function(s){return s&&s.charAt(0)!=='#';}).map(function(s){return s.split('|').map(function(x){return x.trim();});})
+      .filter(function(r){return r[0]&&r[1]&&okPath(r[1]);}).map(function(r){return {ja:r[0],file:r[1],en:r[4]};});
+    applyText();
+  });
+  applyText();
+
+  /* ---------- 譜面づくり ---------- */
+  function fft(re,im){
+    var n=re.length,i,j=0,k,m;
+    for(i=0;i<n-1;i++){if(i<j){var a=re[i];re[i]=re[j];re[j]=a;a=im[i];im[i]=im[j];im[j]=a;}k=n>>1;while(k<=j){j-=k;k>>=1;}j+=k;}
+    for(var len=2;len<=n;len<<=1){
+      var ang=-2*Math.PI/len,wr=Math.cos(ang),wi=Math.sin(ang),h=len>>1;
+      for(i=0;i<n;i+=len){var cr=1,ci=0;
+        for(m=0;m<h;m++){
+          var ur=re[i+m],ui=im[i+m],vr=re[i+m+h]*cr-im[i+m+h]*ci,vi=re[i+m+h]*ci+im[i+m+h]*cr;
+          re[i+m]=ur+vr;im[i+m]=ui+vi;re[i+m+h]=ur-vr;im[i+m+h]=ui-vi;
+          var nr=cr*wr-ci*wi;ci=cr*wi+ci*wr;cr=nr;
+        }}
+    }
+  }
+  function buildChart(buf,dname,onProg){
+    return new Promise(function(resolve){
+      var N=1024,HOP=1024,sr=buf.sampleRate,ch0=buf.getChannelData(0),ch1=buf.numberOfChannels>1?buf.getChannelData(1):null;
+      var frames=Math.floor((ch0.length-N)/HOP),B=240;
+      var win=new Float32Array(N);for(var i=0;i<N;i++)win[i]=0.5-0.5*Math.cos(2*Math.PI*i/(N-1));
+      var re=new Float32Array(N),im=new Float32Array(N),prev=new Float32Array(B),flux=new Float32Array(frames),cen=new Float32Array(frames);
+      var f=0;
+      function step(){
+        var end=Math.min(frames,f+1500);
+        for(;f<end;f++){
+          var off=f*HOP;
+          for(var i=0;i<N;i++){var v=ch1?(ch0[off+i]+ch1[off+i])*.5:ch0[off+i];re[i]=v*win[i];im[i]=0;}
+          fft(re,im);
+          var fl=0,sm=0,sw=0;
+          for(var b=1;b<B;b++){
+            var mag=Math.sqrt(re[b]*re[b]+im[b]*im[b]),lm=Math.log(1+mag*4),d=lm-prev[b];
+            if(d>0)fl+=d;prev[b]=lm;sm+=mag;sw+=mag*b;
+          }
+          flux[f]=fl;cen[f]=sm>0?sw/sm:0;
+        }
+        if(onProg)onProg(f/frames);
+        if(f<frames){setTimeout(step,0);}else{resolve(pickNotes(flux,cen,frames,HOP,sr,dname));}
+      }
+      step();
+    });
+  }
+  function pickNotes(flux,cen,frames,HOP,sr,dname){
+    var D=DIFF[dname],gm=0,i,j;
+    for(i=0;i<frames;i++)gm+=flux[i];gm/=Math.max(1,frames);
+    var W=8,cand=[];
+    for(i=3;i<frames-3;i++){
+      var s=0,c=0;for(j=Math.max(0,i-W);j<=Math.min(frames-1,i+W);j++){s+=flux[j];c++;}
+      var thr=(s/c)*D.mult+gm*0.35;
+      var v=flux[i];
+      if(v>thr&&v>=flux[i-1]&&v>=flux[i+1]&&v>=flux[i-2]&&v>=flux[i+2]){
+        cand.push({t:(i*HOP+HOP/2)/sr,v:v,c:cen[i]});
+      }
+    }
+    var out=[];
+    cand.forEach(function(n){
+      if(n.t<1.4)return;
+      var last=out[out.length-1];
+      if(last&&n.t-last.t<D.gap){if(n.v>last.v)out[out.length-1]=n;}else out.push(n);
+    });
+    var cs=out.map(function(n){return n.c;}).sort(function(a,b){return a-b;});
+    var q1=cs[Math.floor(cs.length*.25)]||0,q2=cs[Math.floor(cs.length*.5)]||0,q3=cs[Math.floor(cs.length*.75)]||0;
+    var l1=-1,l2=-1;
+    return out.map(function(n){
+      var lane=n.c<q1?0:n.c<q2?1:n.c<q3?2:3;
+      if(lane===l1&&lane===l2){lane=lane<=1?lane+1:lane-1;}
+      l2=l1;l1=lane;
+      return {t:n.t,lane:lane,done:false};
+    });
+  }
+
+  /* ---------- ゲーム ---------- */
+  var ctx=null,src=null,raf=0,notes=[],startAt=0,dur=0,running=false,cur=null;
+  var st={score:0,earned:0,combo:0,maxc:0,perf:0,good:0,miss:0};
+  var pops=[],flashes=[0,0,0,0],cv=$('cv'),g=cv.getContext('2d'),W=0,H=0,dpr=1;
+  var COLORS=['#ff8fb8','#ffb86b','#8fe0ff','#c9a0ff'],KEYS={d:0,f:1,j:2,k:3};
+
+  function resize(){
+    var r=$('stage').getBoundingClientRect();dpr=window.devicePixelRatio||1;
+    W=r.width;H=r.height;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);g.setTransform(dpr,0,0,dpr,0,0);
+  }
+  window.addEventListener('resize',resize);
+
+  function gt(){return ctx.currentTime-startAt;}
+  function judgeTime(){return gt()-offMs/1000;}
+
+  function tap(lane){
+    if(!running)return;
+    flashes[lane]=1;
+    var tm=judgeTime(),best=null,bd=1;
+    for(var i=0;i<notes.length;i++){
+      var n=notes[i];if(n.done||n.lane!==lane)continue;
+      var d=Math.abs(n.t-tm);if(n.t-tm>.3)break;
+      if(d<bd){bd=d;best=n;}
+    }
+    if(!best||bd>.16)return;
+    best.done=true;
+    if(bd<=.075){st.perf++;st.earned+=1;pop('perfect',lane);}else{st.good++;st.earned+=.6;pop('good',lane);}
+    st.combo++;if(st.combo>st.maxc)st.maxc=st.combo;
+  }
+  function pop(kind,lane){pops.push({k:kind,l:lane,t:performance.now()});}
+
+  function begin(){
+    if(!songs.length)return;
+    cur=songs[sel];
+    var AC=window.AudioContext||window.webkitAudioContext;
+    if(!ctx)ctx=new AC();
+    try{ctx.resume();}catch(e){}
+    show('loadscr');var lt=$('lt');lt.style.display='flex';lt.textContent=t('loading');
+    fetch(cur.file).then(function(r){if(!r.ok)throw 0;return r.arrayBuffer();})
+    .then(function(ab){return new Promise(function(res,rej){ctx.decodeAudioData(ab,res,rej);});})
+    .then(function(buf){
+      lt.textContent=t('building')+' 0%';
+      return buildChart(buf,diff,function(p){lt.textContent=t('building')+' '+Math.round(p*100)+'%';}).then(function(ch){return {buf:buf,ch:ch};});
+    })
+    .then(function(o){play(o.buf,o.ch);})
+    .catch(function(e){lt.textContent=t('err');setTimeout(function(){show('menu');},1800);});
+  }
+  function play(buf,chart){
+    notes=chart;dur=buf.duration;st={score:0,earned:0,combo:0,maxc:0,perf:0,good:0,miss:0};pops=[];flashes=[0,0,0,0];
+    show('play');resize();
+    src=ctx.createBufferSource();src.buffer=buf;src.connect(ctx.destination);
+    startAt=ctx.currentTime+2.2;src.start(startAt);running=true;
+    cancelAnimationFrame(raf);raf=requestAnimationFrame(loop);
+    window.__mina={notes:notes,gt:gt,tap:tap,st:st};
+  }
+  function stop(){
+    running=false;cancelAnimationFrame(raf);
+    try{if(src){src.onended=null;src.stop();}}catch(e){}
+    src=null;
+  }
+  function finish(){
+    stop();
+    var total=notes.length||1,acc=st.earned/total,score=Math.round(acc*1000000);
+    var rank=acc>=.95?'S':acc>=.85?'A':acc>=.7?'B':'C';
+    var key='mina-best-'+cur.file+'-'+diff,bs=parseInt(store(key)||'0',10)||0;
+    if(score>bs){bs=score;store(key,String(bs));}
+    $('rsong').textContent=pick(cur.ja,cur.en)+' / '+t(diff);
+    $('rrank').textContent=rank;
+    $('rscore').textContent=score.toLocaleString();
+    $('rstat').innerHTML=t('rPerfect')+' '+st.perf+'　'+t('rGood')+' '+st.good+'　'+t('rMiss')+' '+st.miss+'<br>'+t('rCombo')+' '+st.maxc+' / '+notes.length+' '+t('notes')+'<br>'+t('best')+' '+bs.toLocaleString();
+    show('result');
+  }
+  function loop(){
+    if(!running)return;
+    var now=gt(),tm=judgeTime(),F=DIFF[diff].fall,hitY=H*.8,laneW=W/4,i;
+    for(i=0;i<notes.length;i++){
+      var n=notes[i];if(n.done)continue;
+      if(n.t<tm-.16){n.done=true;st.miss++;st.combo=0;pop('miss',n.lane);}
+      else if(n.t>tm+F)break;
+    }
+    g.clearRect(0,0,W,H);
+    var bg=g.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#3a1530');bg.addColorStop(1,'#1d0b17');g.fillStyle=bg;g.fillRect(0,0,W,H);
+    for(i=0;i<4;i++){
+      if(flashes[i]>0){g.fillStyle='rgba(255,255,255,'+(.18*flashes[i])+')';g.fillRect(i*laneW,0,laneW,H);flashes[i]=Math.max(0,flashes[i]-.08);}
+      g.strokeStyle='rgba(255,255,255,.12)';g.beginPath();g.moveTo(i*laneW,0);g.lineTo(i*laneW,H);g.stroke();
+    }
+    g.fillStyle='rgba(255,179,209,.9)';g.fillRect(0,hitY-2,W,4);
+    g.fillStyle='rgba(255,255,255,.08)';g.fillRect(0,hitY,W,H-hitY);
+    for(i=0;i<4;i++){
+      g.fillStyle=COLORS[i];g.globalAlpha=.9;g.beginPath();g.arc(i*laneW+laneW/2,hitY+(H-hitY)*.45,laneW*.28,0,7);g.fill();g.globalAlpha=1;
+      g.fillStyle='#1d0b17';g.font='bold 15px sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText('DFJK'.charAt(i),i*laneW+laneW/2,hitY+(H-hitY)*.45);
+    }
+    for(i=0;i<notes.length;i++){
+      var nn=notes[i];if(nn.done)continue;
+      var dt=nn.t-tm;if(dt>F)break;
+      var y=hitY-dt/F*hitY;
+      g.fillStyle=COLORS[nn.lane];g.beginPath();
+      var rw=laneW*.82,rh=laneW*.34,x=nn.lane*laneW+(laneW-rw)/2;
+      if(g.roundRect){g.roundRect(x,y-rh/2,rw,rh,rh/2);}else{g.rect(x,y-rh/2,rw,rh);}
+      g.fill();g.strokeStyle='#fff';g.lineWidth=2;g.stroke();
+    }
+    var nw=performance.now();
+    pops=pops.filter(function(p){return nw-p.t<450;});
+    pops.forEach(function(p){
+      var a=1-(nw-p.t)/450;g.globalAlpha=a;g.textAlign='center';g.textBaseline='middle';g.font='bold 20px sans-serif';
+      g.fillStyle=p.k==='perfect'?'#fff27a':p.k==='good'?'#8fe0ff':'#ff6b6b';
+      g.fillText(t(p.k),p.l*laneW+laneW/2,hitY-40-(1-a)*20);g.globalAlpha=1;
+    });
+    g.fillStyle='#fff';g.textAlign='right';g.textBaseline='top';g.font='bold 22px sans-serif';
+    g.fillText(Math.round(st.earned/(notes.length||1)*1000000).toLocaleString(),W-12,10);
+    g.font='12px sans-serif';g.fillStyle='#ffb3d1';g.fillText(t('score'),W-12,36);
+    if(st.combo>1){g.textAlign='center';g.fillStyle='#fff';g.font='bold 40px sans-serif';g.fillText(String(st.combo),W/2,H*.32);g.font='14px sans-serif';g.fillStyle='#ffb3d1';g.fillText(t('combo'),W/2,H*.32+46);}
+    if(now>-2&&now<0){g.textAlign='center';g.fillStyle='rgba(255,255,255,.9)';g.font='bold 30px sans-serif';g.fillText(String(Math.ceil(-now)),W/2,H*.5);}
+    g.fillStyle='rgba(255,255,255,.15)';g.fillRect(0,0,W*Math.max(0,Math.min(1,now/dur)),4);
+    if(now>dur+.8){finish();return;}
+    raf=requestAnimationFrame(loop);
+  }
+
+  cv.addEventListener('pointerdown',function(e){
+    e.preventDefault();var r=cv.getBoundingClientRect();
+    tap(Math.max(0,Math.min(3,Math.floor((e.clientX-r.left)/r.width*4))));
+  });
+  window.addEventListener('keydown',function(e){
+    if(e.repeat)return;var k=KEYS[(e.key||'').toLowerCase()];if(k!==undefined)tap(k);
+  });
+  document.addEventListener('visibilitychange',function(){if(document.hidden&&running){stop();show('menu');}});
+  $('start').onclick=begin;
+  $('again').onclick=begin;
+  $('tomenu').onclick=function(){show('menu');};
+  $('quit').onclick=function(){stop();show('menu');};
+  window.__mina_dbg={buildChart:buildChart};
+})();
+</script>
+</body>
+</html>

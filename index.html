@@ -72,6 +72,7 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
   <a href="#links" data-t="nLinks"></a>
   <a href="#events" data-t="nEvents"></a>
   <a href="#songs" data-t="nSongs"></a>
+  <a href="#game" data-t="nGame"></a>
   <a href="#photos" data-t="nPhotos"></a>
   <a href="#shop" data-t="nShop"></a>
 </nav>
@@ -79,6 +80,7 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
   <section id="links"><h2 data-t="nLinks"></h2><div id="links-body" class="btns"></div></section>
   <section id="events"><h2 data-t="hEvents"></h2><div id="events-body"></div></section>
   <section id="songs"><h2 data-t="nSongs"></h2><div id="songs-body"></div></section>
+  <section id="game"><h2 data-t="nGame"></h2><p data-t="gameDesc" style="margin:0 0 12px"></p><a class="btn" href="game.html" id="gamelink" data-t="gamePlay"></a></section>
   <section id="photos"><h2 data-t="nPhotos"></h2><div id="photos-body"></div></section>
   <section id="shop"><h2 data-t="nShop"></h2><div id="shop-body" class="btns"></div></section>
 </main>
@@ -87,9 +89,9 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
 <script>
 (function(){
   var T={
-    ja:{title:'mina piano オフィシャルホームページ',sub:'17LIVEライバー ／ ピアノ',nLinks:'リンク',nEvents:'イベント',hEvents:'イベント情報',nSongs:'オリジナルソング',nPhotos:'写真',nShop:'グッズ・楽曲販売',
+    ja:{title:'mina piano オフィシャルホームページ',sub:'17LIVEライバー ／ ピアノ',nLinks:'リンク',nEvents:'イベント',hEvents:'イベント情報',nSongs:'オリジナルソング',nPhotos:'写真',nGame:'リズムゲーム',gameDesc:'オリジナルソングに合わせて、流れてくる音符をタップ! 曲は自動で譜面になります。',gamePlay:'あそんでみる',nShop:'グッズ・楽曲販売',
         foot:'このホームページには、個人の情報は掲載していません。',soon:'準備中です',noEv:'いまのところ、予定されているイベントはありません。',past:'過去のイベント(%n件)',more:'くわしくはこちら',dl:'この曲をダウンロード',buy:'配信・購入はこちら',photo:'写真'},
-    en:{title:'mina piano Official Website',sub:'17LIVE Streamer / Pianist',nLinks:'Links',nEvents:'Events',hEvents:'Events',nSongs:'Original Songs',nPhotos:'Photos',nShop:'Goods & Music Store',
+    en:{title:'mina piano Official Website',sub:'17LIVE Streamer / Pianist',nLinks:'Links',nEvents:'Events',hEvents:'Events',nSongs:'Original Songs',nPhotos:'Photos',nGame:'Rhythm Game',gameDesc:'Tap the notes in time with the original songs! Every song becomes a chart automatically.',gamePlay:'Play now',nShop:'Goods & Music Store',
         foot:'This website does not publish any personal information.',soon:'Coming soon',noEv:'No events are scheduled right now.',past:'Past events (%n)',more:'More info',dl:'Download this song',buy:'Listen / buy this song',photo:'Photo'}
   };
   var lang='ja';
