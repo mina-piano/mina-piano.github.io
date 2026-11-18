@@ -49,6 +49,19 @@ section#app li{margin:4px 0}
 .setl{margin:0;padding-left:1.8em}
 .setl li{margin:6px 0;font-size:1.05rem}
 .setl .seta{color:var(--sub);font-size:.9rem}
+#roulette{border:1px solid var(--line);border-radius:14px;padding:12px;margin:0 0 16px;text-align:center;background:var(--bg)}
+#roulette h3{margin:0 0 6px;font-size:1rem;color:var(--accent2)}
+#roulette .rl-note{font-size:.78rem;color:var(--sub);margin:6px 0 0}
+#rl-screen{min-height:78px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff;border:3px solid var(--accent);border-radius:12px;margin:6px 0 10px;padding:8px 10px;overflow:hidden}
+#rl-screen .rl-t{font-size:1.3rem;font-weight:800;color:var(--ink);word-break:break-word}
+#rl-screen .rl-a{font-size:.85rem;color:var(--sub)}
+#rl-screen.spin .rl-t{color:var(--sub);font-weight:700}
+#rl-screen.done{animation:rlpop .5s ease;background:#fff0f6}
+#rl-screen.done .rl-t{color:var(--accent2)}
+@keyframes rlpop{0%{transform:scale(.9)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
+#rl-btn{font:inherit;font-weight:800;font-size:1.05rem;border:0;border-radius:999px;padding:10px 26px;background:var(--accent);color:#fff;cursor:pointer}
+#rl-btn[disabled]{opacity:.6}
+#rl-open{display:inline-block;margin-left:10px;font-weight:700}
 #evlist{scroll-margin-top:80px}
 #evlist .x{display:block;margin:10px auto 0;border:2px solid var(--accent);background:#fff;color:var(--accent2);border-radius:999px;padding:6px 22px;font:inherit;font-weight:700;cursor:pointer}
 .calhint{margin:8px 2px 0;font-size:.8rem;color:var(--sub);text-align:center}
@@ -164,10 +177,10 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
 <script>
 (function(){
   var T={
-    ja:{title:'mina piano オフィシャルホームページ',sub:'17LIVEライバー ／ ピアノ',nIntro:'mina pianoについて',nRepertoire:'曲リスト',nSet:'当日セトリ',setNote:'※ 当日の予定です。変更になることがあります。',repSearch:'🔍 曲名やアーティスト名で検索',repOther:'その他',repNone:'見つかりませんでした',nLinks:'リンク',nEvents:'イベント',hEvents:'イベント情報',nSongs:'オリジナルソング',nPhotos:'写真',nGame:'リズムゲーム',gameDesc:'オリジナルソングに合わせて、流れてくる音符をタップ! 曲は自動で譜面になります。',gamePlay:'あそんでみる',nShop:'グッズ・楽曲販売',tapHint:'ボタンをタップしてね👇',
+    ja:{title:'mina piano オフィシャルホームページ',sub:'17LIVEライバー ／ ピアノ',nIntro:'mina pianoについて',nRepertoire:'曲リスト',nSet:'当日セトリ',rlTitle:'🎰 ルーレットで曲を選ぶ',rlSpin:'ルーレットを回す!',rlAgain:'もう一度回す',rlNote:'下の検索で絞り込むと、その中から選びます。',rlNone:'選べる曲がありません',rlOpen:'Spotifyで探す ♪',setNote:'※ 当日の予定です。変更になることがあります。',repSearch:'🔍 曲名やアーティスト名で検索',repOther:'その他',repNone:'見つかりませんでした',nLinks:'リンク',nEvents:'イベント',hEvents:'イベント情報',nSongs:'オリジナルソング',nPhotos:'写真',nGame:'リズムゲーム',gameDesc:'オリジナルソングに合わせて、流れてくる音符をタップ! 曲は自動で譜面になります。',gamePlay:'あそんでみる',nShop:'グッズ・楽曲販売',tapHint:'ボタンをタップしてね👇',
         appBtn:'📱 スマホにアイコンを置く方法',nApp:'スマホにアイコンを置く',appLead:'ホーム画面にアイコンを置くと、アプリのように、1回タップするだけで開けます。',appIos:'iPhone(Safari)の場合',appIos1:'Safariでこのページを開きます。',appIos2:'下にある共有ボタン(四角から上向きの矢印)をタップします。',appIos3:'出てきた一覧を上にずらして「ホーム画面に追加」をタップします。',appIos4:'右上の「追加」をタップします。',appAnd:'Androidの場合(Chrome)',appAnd1:'Chromeでこのページを開きます。',appAnd2:'右上の「︙」(点が3つ)をタップします。',appAnd3:'「ホーム画面に追加」→「追加」をタップします。',
         foot:'このホームページには、個人の情報は掲載していません。',soon:'準備中です',nCal:'カレンダー',calHint:'日付をタップすると、その日のイベントが開きます。',close:'閉じる',noEv:'いまのところ、予定されているイベントはありません。',past:'過去のイベント(%n件)',more:'くわしくはこちら',dl:'この曲をダウンロード',dlPrep:'準備しています…',dlTap:'もういちどタップして保存',dlLine:'LINEの中では保存できません。右下の「…」→「Safariで開く」で開いてください。',dlFail:'保存できませんでした。曲を再生してから、共有ボタンの「ファイルに保存」をお試しください。',buy:'配信・購入はこちら',photo:'写真'},
-    en:{title:'mina piano Official Website',sub:'17LIVE Streamer / Pianist',nIntro:'About mina piano',nRepertoire:'Song List',nSet:'Setlist',setNote:'* Planned setlist. It may change on the day.',repSearch:'🔍 Search by song or artist',repOther:'Other',repNone:'No matches found',nLinks:'Links',nEvents:'Events',hEvents:'Events',nSongs:'Original Songs',nPhotos:'Photos',nGame:'Rhythm Game',gameDesc:'Tap the notes in time with the original songs! Every song becomes a chart automatically.',gamePlay:'Play now',nShop:'Goods & Music Store',tapHint:'Tap a button below 👇',
+    en:{title:'mina piano Official Website',sub:'17LIVE Streamer / Pianist',nIntro:'About mina piano',nRepertoire:'Song List',nSet:'Setlist',rlTitle:'🎰 Song Roulette',rlSpin:'Spin the roulette!',rlAgain:'Spin again',rlNote:'Use the search below to narrow the songs it picks from.',rlNone:'No songs to pick from',rlOpen:'Find on Spotify ♪',setNote:'* Planned setlist. It may change on the day.',repSearch:'🔍 Search by song or artist',repOther:'Other',repNone:'No matches found',nLinks:'Links',nEvents:'Events',hEvents:'Events',nSongs:'Original Songs',nPhotos:'Photos',nGame:'Rhythm Game',gameDesc:'Tap the notes in time with the original songs! Every song becomes a chart automatically.',gamePlay:'Play now',nShop:'Goods & Music Store',tapHint:'Tap a button below 👇',
         appBtn:'📱 Add an icon to your phone',nApp:'Add to your home screen',appLead:'Put an icon on your home screen and open this site with one tap, like an app.',appIos:'iPhone (Safari)',appIos1:'Open this page in Safari.',appIos2:'Tap the share button (square with an arrow pointing up) at the bottom.',appIos3:'Scroll the menu up and tap "Add to Home Screen".',appIos4:'Tap "Add" in the top right.',appAnd:'Android (Chrome)',appAnd1:'Open this page in Chrome.',appAnd2:'Tap the "⋮" menu in the top right.',appAnd3:'Tap "Add to Home screen", then "Add".',
         foot:'This website does not publish any personal information.',soon:'Coming soon',nCal:'Calendar',calHint:'Tap a date to see that day\'s event.',close:'Close',noEv:'No events are scheduled right now.',past:'Past events (%n)',more:'More info',dl:'Download this song',dlPrep:'Preparing…',dlTap:'Tap again to save',dlLine:'Saving does not work inside LINE. Tap the "…" at the bottom right and choose "Open in Safari".',dlFail:'Could not save. Play the song, then try "Save to Files" from the share button.',buy:'Listen / buy this song',photo:'Photo'}
   };
@@ -332,7 +345,8 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
       map[artist].songs.push(x[0]);
     });
     groups.sort(function(a,b){return a.name==t('repOther')?1:b.name==t('repOther')?-1:a.name.localeCompare(b.name,'ja');});
-    var html='<input type="text" class="rep-search" id="rep-search" placeholder="'+t('repSearch')+'">';
+    var html='<div id="roulette"><h3>'+t('rlTitle')+'</h3><div id="rl-screen"><span class="rl-t">♪ ♪ ♪</span></div><button type="button" id="rl-btn">'+t('rlSpin')+'</button><a id="rl-open" href="#" target="_blank" rel="noopener" style="display:none">'+t('rlOpen')+'</a><p class="rl-note">'+t('rlNote')+'</p></div>';
+    html+='<input type="text" class="rep-search" id="rep-search" placeholder="'+t('repSearch')+'">';
     html+='<div id="rep-list">'+groups.map(function(g){
       var isOther=g.name===t('repOther');
       return '<div class="rep-group"><h3>'+esc(g.name)+'</h3><ul>'+g.songs.map(function(s){
@@ -344,6 +358,40 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:20px 16px 40p
     html+='<p class="empty" id="rep-empty" style="display:none">'+t('repNone')+'</p>';
     box.innerHTML=html;
     var search=document.getElementById('rep-search'),empty=document.getElementById('rep-empty');
+    (function(){
+      var btn=document.getElementById('rl-btn'),scr=document.getElementById('rl-screen'),op=document.getElementById('rl-open'),busy=false,timer=null;
+      function pool(){
+        var a=[];
+        box.querySelectorAll('.rep-group').forEach(function(g){
+          if(g.style.display==='none')return;
+          var an=g.querySelector('h3').textContent;
+          g.querySelectorAll('li').forEach(function(li){
+            if(li.style.display==='none')return;
+            var l=li.querySelector('a');a.push({t:l.textContent,a:an,u:l.href});
+          });
+        });
+        return a;
+      }
+      function show(x,cls){
+        scr.className=cls||'';
+        scr.innerHTML='<span class="rl-t">'+esc(x.t)+'</span><span class="rl-a">'+esc(x.a)+'</span>';
+      }
+      btn.addEventListener('click',function(){
+        if(busy)return;
+        var p=pool();
+        if(!p.length){scr.className='';scr.innerHTML='<span class="rl-t">'+esc(t('rlNone'))+'</span>';return;}
+        busy=true;btn.disabled=true;op.style.display='none';
+        var win=p[Math.floor(Math.random()*p.length)];
+        var steps=p.length===1?1:24,i=0;
+        (function tick(){
+          i++;
+          if(i>=steps){show(win,'done');op.href=win.u;op.style.display='';btn.textContent=t('rlAgain');btn.disabled=false;busy=false;return;}
+          var x=p[Math.floor(Math.random()*p.length)];
+          show(x,'spin');
+          timer=setTimeout(tick,50+Math.round(Math.pow(i/steps,3)*420));
+        })();
+      });
+    })();
     search.addEventListener('input',function(){
       var q=search.value.trim().toLowerCase();
       var any=false;
